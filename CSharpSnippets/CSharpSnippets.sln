@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33414.496
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpSnippets", "CSharpSnippets\CSharpSnippets.csproj", "{DB0BF6AD-ABE1-4A26-AF0F-2C6E904DAAAB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DB0BF6AD-ABE1-4A26-AF0F-2C6E904DAAAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB0BF6AD-ABE1-4A26-AF0F-2C6E904DAAAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB0BF6AD-ABE1-4A26-AF0F-2C6E904DAAAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB0BF6AD-ABE1-4A26-AF0F-2C6E904DAAAB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E703B0CD-FE91-48F9-B124-1741040042DE}
+	EndGlobalSection
+EndGlobal

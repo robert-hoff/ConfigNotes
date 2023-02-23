@@ -3,3 +3,9 @@
 # windows shortcut links
 *.lnk
 
+# Visual Studio generated
+.vs/
+bin/
+obj/
+*.user
+
