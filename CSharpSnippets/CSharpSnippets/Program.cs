@@ -1,4 +1,5 @@
 using CSharpSnippets.FormElements;
+using CSharpSnippets.Testruns;
 
 namespace CSharpSnippets
 {
@@ -7,13 +8,19 @@ namespace CSharpSnippets
         [STAThread]
         static void Main()
         {
-            FormSnippets();
+            // FormSnippets();
+            RunSnippets();
         }
 
         static void FormSnippets()
         {
             ApplicationConfiguration.Initialize();
             Application.Run(new MainForm());
+        }
+
+        static void RunSnippets()
+        {
+            TestFileIO.RunTrials();
         }
     }
 }
