@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using CSharpSnippets.FileIO;
 
 namespace CSharpSnippets.FixCs
@@ -17,8 +17,8 @@ namespace CSharpSnippets.FixCs
 
         public static void Run()
         {
-            // FixAllFiles();
-            FixStylesForFile(TEST_FILE);
+            FixAllFiles();
+            // FixStylesForFile(TEST_FILE);
             // ShowFixesForFile(TEST_FILE);
             // ShowCsFilesWalkDirectory();
         }
@@ -216,9 +216,4 @@ namespace CSharpSnippets.FixCs
         }
     }
 }
-
-
-
-
-
 

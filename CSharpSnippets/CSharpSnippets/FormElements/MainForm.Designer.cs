@@ -1,4 +1,4 @@
-﻿namespace CSharpSnippets.FormElements
+namespace CSharpSnippets.FormElements
 {
     partial class MainForm
     {

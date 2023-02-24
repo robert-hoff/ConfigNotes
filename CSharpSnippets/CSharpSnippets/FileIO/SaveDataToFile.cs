@@ -1,4 +1,4 @@
-﻿namespace CSharpSnippets.FileIO
+namespace CSharpSnippets.FileIO
 {
     public class SaveDataToFile
     {
