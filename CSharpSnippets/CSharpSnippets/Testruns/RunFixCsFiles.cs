@@ -2,11 +2,17 @@ using CSharpSnippets.FixCs;
 
 namespace CSharpSnippets.Testruns
 {
-    public class TestFixCsFiles
+    public class RunFixCsFiless
     {
         public static void RunTrials()
         {
-            CopyOverEditorConfigFile();
+            FixStylesForAllCsFiles();
+            // CopyOverEditorConfigFile();
+        }
+
+        public static void FixStylesForAllCsFiles()
+        {
+            FixCsSources.Run();
         }
 
         public static void CopyOverEditorConfigFile()

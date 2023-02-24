@@ -21,7 +21,7 @@ namespace CSharpSnippets
         public static void RunSnippets()
         {
             // TestFileIO.RunTrials();
-            TestFixCsFiles.RunTrials();
+            RunFixCsFiless.RunTrials();
         }
     }
 }
