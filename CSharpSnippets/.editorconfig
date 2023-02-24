@@ -6,6 +6,7 @@ indent_size = 4
 charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
+end_of_line = lf
 
 [*.cs]
 #
@@ -22,7 +23,7 @@ dotnet_diagnostic.IDE0007.severity = none
 dotnet_diagnostic.IDE0008.severity = warning
 # IDE0003: Prefer fields to be prefaced with this
 dotnet_diagnostic.IDE0009.severity = none
-# IDE0011: Add braces to if statemetns
+# IDE0011: Add braces to all statements
 dotnet_diagnostic.IDE0011.severity = warning
 # IDE0017: Object initialization can be simplified
 dotnet_diagnostic.IDE0017.severity = none
@@ -278,12 +279,8 @@ csharp_space_between_square_brackets = false
 csharp_using_directive_placement = outside_namespace
 csharp_prefer_braces = true
 csharp_preserve_single_line_blocks = true
-csharp_preserve_single_line_statements = false
+csharp_preserve_single_line_statements = true
 csharp_prefer_static_local_function = true
 csharp_prefer_simple_using_statement = true
 csharp_style_prefer_switch_expression = true
-
-
-
-
 
