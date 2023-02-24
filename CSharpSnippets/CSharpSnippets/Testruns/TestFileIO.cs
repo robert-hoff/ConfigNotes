@@ -1,4 +1,4 @@
-using CSharpSnippets.FileIO;
+﻿using CSharpSnippets.FileIO;
 using CSharpSnippets.FileO;
 using System;
 using System.Collections.Generic;
@@ -11,20 +11,31 @@ namespace CSharpSnippets.Testruns
 {
     public class TestFileIO
     {
-        private const string DEFAULT_OUTPUT_DIR = @"..\..\..\..\data-output\";
+        private const string DEFAULT_OUTPUT_DIR = "../../../../data-output";
 
         public static void RunTrials()
         {
-            TestFileWrite2();
+            TestSaveIntDataToFile();
+            // TestFileWrite2();
             // TestFileWrite1();
             // TestFileReadStringData();
             // TestFileReadIntData();
             // TestParsing();
         }
 
+        public static void TestSaveIntDataToFile()
+        {
+            string filename = "myintdata.txt";
+            List<int> myIntData = new()
+            {
+                1, 2, 3
+            };
+            SaveDataToFile.SaveSingleColumnIntData(filename, myIntData);
+        }
+
         public static void TestFileWrite2()
         {
-            string outputFilenamepath = $"{DEFAULT_OUTPUT_DIR}hellofile.html";
+            string outputFilenamepath = $"{DEFAULT_OUTPUT_DIR}/hellofile.html";
             FileWriter fw = new FileWriter(
                 outputFilenamepath,
                 showOutputToConsole: false,
@@ -41,7 +52,7 @@ namespace CSharpSnippets.Testruns
 
         public static void TestFileWrite1()
         {
-            string outputFilenamepath = $"{DEFAULT_OUTPUT_DIR}hellofile.txt";
+            string outputFilenamepath = $"{DEFAULT_OUTPUT_DIR}/hellofile.txt";
             FileWriter fw = new FileWriter(
                 outputFilenamepath,
                 showOutputToConsole: false,
