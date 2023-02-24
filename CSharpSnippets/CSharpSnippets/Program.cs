@@ -1,3 +1,4 @@
+using CSharpSnippets.EditorConfigs;
 using CSharpSnippets.FormElements;
 using CSharpSnippets.Testruns;
 
@@ -16,6 +17,11 @@ namespace CSharpSnippets
         {
             ApplicationConfiguration.Initialize();
             Application.Run(new MainForm());
+        }
+
+        public static void EditorConfigs()
+        {
+            EditorConfigsSnippets.RunSnippets();
         }
 
         public static void RunSnippets()

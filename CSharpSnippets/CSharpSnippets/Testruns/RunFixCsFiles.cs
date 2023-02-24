@@ -6,8 +6,8 @@ namespace CSharpSnippets.Testruns
     {
         public static void RunTrials()
         {
-            FixStylesForAllCsFiles();
-            // CopyOverEditorConfigFile();
+            // FixStylesForAllCsFiles();
+            CopyOverEditorConfigFile();
         }
 
         public static void FixStylesForAllCsFiles()

@@ -187,99 +187,114 @@ dotnet_diagnostic.IDE0055.severity = warning
 # dotnet style settings
 #
 # Sort using and Import directives with System.* appearing first
-# the dotnet_sort_system_directives_first doesn't seem to work if written as 'true:warning'
-dotnet_sort_system_directives_first = true
-dotnet_style_namespace_match_folder = true
-dotnet_separate_import_directive_groups = false
+dotnet_sort_system_directives_first = true # IDE0055
+# Match namespaces to folder structure
+dotnet_style_namespace_match_folder = true # IDE0055
+# Do not place a blank line between using directive groups.
+dotnet_separate_import_directive_groups = false # IDE0055
 
 # Avoid "this" if not necessary
-dotnet_style_qualification_for_field = false
-dotnet_style_qualification_for_property = false
-dotnet_style_qualification_for_method = false
-dotnet_style_qualification_for_event = false
+dotnet_style_qualification_for_field = false # IDE0003, IDE0009
+dotnet_style_qualification_for_property = false # IDE0003, IDE0009
+dotnet_style_qualification_for_method = false # IDE0003, IDE0009
+dotnet_style_qualification_for_event = false # IDE0003, IDE0009
 
 # Use language keywords instead of framework type names for type references
-dotnet_style_predefined_type_for_locals_parameters_members = true
-dotnet_style_predefined_type_for_member_access = true
+dotnet_style_predefined_type_for_locals_parameters_members = true # IDE0049
+dotnet_style_predefined_type_for_member_access = true # IDE0049
 
 # Suggest more modern language features when available
-dotnet_style_object_initializer = true
-dotnet_style_collection_initializer = true
-dotnet_style_coalesce_expression = true
-dotnet_style_null_propagation = true
-dotnet_style_explicit_tuple_names = true
+dotnet_style_object_initializer = true # IDE0017
+dotnet_style_collection_initializer = true # IDE0028
+dotnet_style_coalesce_expression = true # IDE0028
+dotnet_style_null_propagation = true# IDE0029, IDE0030
+dotnet_style_explicit_tuple_names = true # IDE0033
 
 #
 # csharp style settings
 #
-# Newline settings
-csharp_new_line_before_open_brace = all
-csharp_new_line_before_else = true
-csharp_new_line_before_catch = true
-csharp_new_line_before_finally = true
-csharp_new_line_before_members_in_object_initializers = true
-csharp_new_line_before_members_in_anonymous_types = true
-csharp_new_line_between_query_expression_clauses = true
+# New-line options
+csharp_new_line_before_open_brace = all # IDE0055
+csharp_new_line_before_else = true # IDE0055
+csharp_new_line_before_catch = true # IDE0055
+csharp_new_line_before_finally = true # IDE0055
+csharp_new_line_before_members_in_object_initializers = true # IDE0055
+csharp_new_line_before_members_in_anonymous_types = true # IDE0055
+csharp_new_line_between_query_expression_clauses = true # IDE0055
 
-# Indentation preferences
-csharp_indent_block_contents = true
-csharp_indent_braces = false
-csharp_indent_case_contents = true
-csharp_indent_case_contents_when_block = false
-csharp_indent_switch_labels = true
-csharp_indent_labels = flush_left
+# Indentation options
+csharp_indent_block_contents = true # IDE0055
+csharp_indent_braces = false # IDE0055
+csharp_indent_case_contents = true # IDE0055
+csharp_indent_case_contents_when_block = false # IDE0055
+csharp_indent_switch_labels = true # IDE0055
+csharp_indent_labels = no_change # IDE0055
 
 # _do not_ prefer var anywhere
-csharp_style_var_for_built_in_types = false
-csharp_style_var_when_type_is_apparent = false
-csharp_style_var_elsewhere = false
+csharp_style_var_for_built_in_types = false # IDE0007, IDE0008
+csharp_style_var_when_type_is_apparent = false # IDE0007, IDE0008
+csharp_style_var_elsewhere = false # IDE0007, IDE0008
 
 # Prefer method-like constructs to have a block body
-csharp_style_expression_bodied_methods = false:none
-csharp_style_expression_bodied_constructors = false:none
-csharp_style_expression_bodied_operators = false:none
+
+# csharp_style_expression_bodied_constructors = false # IDE0021
+csharp_style_expression_bodied_methods = when_on_single_line # IDE0022
+
+# csharp_style_expression_bodied_operators = false # IDE0023, IDE0024
 
 # Prefer property-like constructs to have an expression-body
-csharp_style_expression_bodied_properties = true:none
-csharp_style_expression_bodied_indexers = true:none
-csharp_style_expression_bodied_accessors = true:none
+csharp_style_expression_bodied_properties = true # IDE0025
+csharp_style_expression_bodied_indexers = true # IDE0026
+csharp_style_expression_bodied_accessors = true # IDE0027
 
 # Suggest more modern language features when available
-csharp_style_pattern_matching_over_is_with_cast_check = true
-csharp_style_pattern_matching_over_as_with_null_check = true
-csharp_style_inlined_variable_declaration = true
-csharp_style_throw_expression = true
-csharp_style_conditional_delegate_call = true
+csharp_style_throw_expression = true # IDE0016
+csharp_style_inlined_variable_declaration = true # IDE0018
+csharp_style_pattern_matching_over_as_with_null_check = true # IDE0019
+csharp_style_pattern_matching_over_is_with_cast_check = true # IDE0020, IDE0038
+csharp_style_conditional_delegate_call = true # IDE1005
 
-# Space preferences
-csharp_space_after_cast = true
-csharp_space_after_colon_in_inheritance_clause = true
-csharp_space_after_comma = true
-csharp_space_after_dot = false
-csharp_space_after_keywords_in_control_flow_statements = true
-csharp_space_after_semicolon_in_for_statement = true
-csharp_space_around_binary_operators = before_and_after
-csharp_space_around_declaration_statements = false
-csharp_space_before_colon_in_inheritance_clause = true
-csharp_space_before_comma = false
-csharp_space_before_dot = false
-csharp_space_before_open_square_brackets = false
-csharp_space_before_semicolon_in_for_statement = false
-csharp_space_between_empty_square_brackets = false
-csharp_space_between_method_call_empty_parameter_list_parentheses = false
-csharp_space_between_method_call_name_and_opening_parenthesis = false
-csharp_space_between_method_call_parameter_list_parentheses = false
-csharp_space_between_method_declaration_empty_parameter_list_parentheses = false
-csharp_space_between_method_declaration_name_and_open_parenthesis = false
-csharp_space_between_method_declaration_parameter_list_parentheses = false
-csharp_space_between_parentheses = false
-csharp_space_between_square_brackets = false
+# Spacing options
+csharp_space_after_cast = true # IDE0055
+csharp_space_after_keywords_in_control_flow_statements = true # IDE0055
+csharp_space_between_parentheses = false # IDE0055
+csharp_space_before_colon_in_inheritance_clause = true # IDE0055
+csharp_space_after_colon_in_inheritance_clause = true # IDE0055
+csharp_space_around_binary_operators = before_and_after # IDE0055
+csharp_space_between_method_declaration_parameter_list_parentheses = false # IDE0055
+csharp_space_between_method_declaration_empty_parameter_list_parentheses = false # IDE0055
+csharp_space_between_method_declaration_name_and_open_parenthesis = false # IDE0055
+csharp_space_between_method_call_empty_parameter_list_parentheses = false # IDE0055
+csharp_space_between_method_call_name_and_opening_parenthesis = false # IDE0055
+csharp_space_between_method_call_parameter_list_parentheses = false # IDE0055
+csharp_space_after_comma = true # IDE0055
+csharp_space_before_comma = false # IDE0055
+csharp_space_after_dot = false # IDE0055
+csharp_space_before_dot = false # IDE0055
+csharp_space_after_semicolon_in_for_statement = true # IDE0055
+csharp_space_before_semicolon_in_for_statement = false # IDE0055
+csharp_space_around_declaration_statements = false # IDE0055
+csharp_space_before_open_square_brackets = false # IDE0055
+csharp_space_between_empty_square_brackets = false # IDE0055
+csharp_space_between_square_brackets = false # IDE0055
 
-# Code style defaults
-csharp_using_directive_placement = outside_namespace
-csharp_prefer_braces = true
-csharp_preserve_single_line_blocks = true
-csharp_preserve_single_line_statements = true
-csharp_prefer_static_local_function = true
-csharp_prefer_simple_using_statement = true
-csharp_style_prefer_switch_expression = true
+# Wrap options
+csharp_preserve_single_line_statements = false # IDE0055
+csharp_preserve_single_line_blocks = true # IDE0055
+
+csharp_using_directive_placement = outside_namespace # IDE0065
+csharp_prefer_braces = true # IDE0011
+csharp_prefer_static_local_function = true # IDE0062
+csharp_prefer_simple_using_statement = true # IDE0063
+csharp_style_prefer_switch_expression = true # IDE0066
+
+
+
+
+
+
+
+
+
+
+
