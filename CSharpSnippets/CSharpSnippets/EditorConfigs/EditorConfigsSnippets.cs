@@ -11,7 +11,7 @@ namespace CSharpSnippets.EditorConfigs
         public static void ExplicitTupleNames()
         {
             (string name, int age) customer = ("Hoff Inc", 30);
-            string name = customer.Item1;
+            string name = customer.name;
             Debug.WriteLine($"name = {name}");
         }
     }
