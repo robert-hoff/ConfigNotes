@@ -21,6 +21,17 @@ namespace CSharpSnippets.FileIO
             }
             fileWriter.CloseStreamWriter();
         }
+
+        public static void SaveSingleColumnStringData(string filename, ICollection<string> data)
+        {
+            string filenamepath = $"{DEFAULT_OUTPUT_DIR}/{filename}";
+            FileWriter fileWriter = new FileWriter(filenamepath);
+            foreach (string d in data)
+            {
+                fileWriter.WriteLine($"{d}");
+            }
+            fileWriter.CloseStreamWriter();
+        }
     }
 }
 

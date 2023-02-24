@@ -39,7 +39,6 @@ namespace CSharpSnippets.FixCs
             FixStylesForFile(TEST_FILE);
         }
 
-
         // replace line endings and trim trailing spaces
         public static void FixStylesForFile(string filenamepath)
         {
@@ -59,17 +58,17 @@ namespace CSharpSnippets.FixCs
             {
                 Debug.WriteLine($"{item}");
             }
-            Debug.WriteLine($"\nEND");
+            Debug.WriteLine($"END");
         }
 
         public static List<string> GetModifiedSourceLines(string filenamepath)
         {
             List<string> sourceLines = ReadFileAsStringList(filenamepath);
-            //sourceLines = RemoveDoubleBlankLines(sourceLines);
-            //sourceLines = RemoveBlankLinesFollowingBracket(sourceLines);
+            sourceLines = RemoveDoubleBlankLines(sourceLines);
+            sourceLines = RemoveBlankLinesFollowingBracket(sourceLines);
             sourceLines = RemoveBlankLinesLeadingBracket(sourceLines);
             sourceLines = SetDesiredEndOfFileBlankLines(sourceLines, DESIRED_BLANK_LINES_AT_EOF);
-            // sourceLines = RemoveTrailingSpacesAndUnifyEndings(sourceLines);
+            sourceLines = RemoveTrailingSpacesAndUnifyEndings(sourceLines);
             return sourceLines;
         }
 
