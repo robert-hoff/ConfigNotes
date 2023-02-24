@@ -35,8 +35,8 @@ dotnet_diagnostic.IDE0044.severity = suggestion
 dotnet_diagnostic.IDE0051.severity = suggestion
 # IDE0052: Remove unread (unused) private member
 dotnet_diagnostic.IDE0052.severity = suggestion
-# IDE0058: Use discard
-dotnet_diagnostic.IDE0058.severity = suggestion
+# IDE0058: Remove unnecessary expression value (i.e. force discard)
+dotnet_diagnostic.IDE0058.severity = none
 # IDE0059: unecessary assignment
 dotnet_diagnostic.IDE0059.severity = suggestion
 # IDE0060: Remove unused parameter
@@ -55,7 +55,7 @@ dotnet_diagnostic.IDE1006.severity = warning
 # https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/
 #
 # CA1002: Do not expose generic lists
-dotnet_diagnostic.CA1002.severity = suggestion
+dotnet_diagnostic.CA1002.severity = none
 # CA1003: Use generic event handler instances
 dotnet_diagnostic.CA1003.severity = suggestion
 # CA1008: Enums should have zero value
@@ -69,7 +69,7 @@ dotnet_diagnostic.CA1024.severity = suggestion
 # CA1031: Do not catch general exception types
 dotnet_diagnostic.CA1031.severity = none
 # CA1034: Nested types should not be visible
-dotnet_diagnostic.CA1034.severity = suggestion
+dotnet_diagnostic.CA1034.severity = none
 # CA1051: do not declare visible instance fields
 dotnet_diagnostic.CA1051.severity = suggestion
 # CA1052: Static holder type
@@ -91,7 +91,7 @@ dotnet_diagnostic.CA1307.severity = none
 # CA1309: Use ordinal StringComparison
 dotnet_diagnostic.CA1309.severity = none
 # CA1310: Specify StringComparison for correctness
-dotnet_diagnostic.CA1310.severity = suggestion
+dotnet_diagnostic.CA1310.severity = none
 # CA1508: Avoid dead conditional code
 dotnet_diagnostic.CA1508.severity = suggestion
 # CA1507: Use nameof in place of string
@@ -112,8 +112,8 @@ dotnet_diagnostic.CA1724.severity = none
 dotnet_diagnostic.CA1801.severity = none
 # CA1805: Member is explicitly initialized to its default value
 dotnet_diagnostic.CA1805.severity = none
-# CA1806: variable declared but never used
-dotnet_diagnostic.CA1806.severity = suggestion
+# CA1806: Do not ignore method results
+dotnet_diagnostic.CA1806.severity = none
 # CA1812: Avoid uninstantiated internal classes
 dotnet_diagnostic.CA1812.severity = suggestion
 # CA1814: is a multidimensional array. Replace it with a jagged array if possible.
@@ -283,4 +283,3 @@ csharp_preserve_single_line_statements = true
 csharp_prefer_static_local_function = true
 csharp_prefer_simple_using_statement = true
 csharp_style_prefer_switch_expression = true
-
