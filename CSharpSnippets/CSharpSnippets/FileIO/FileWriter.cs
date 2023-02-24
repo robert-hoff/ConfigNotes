@@ -1,8 +1,7 @@
 using System.Diagnostics;
-using System.Formats.Asn1;
 using System.Text;
 
-namespace CSharpSnippets.FileO
+namespace CSharpSnippets.FileIO
 {
     public class FileWriter : IDisposable
     {
