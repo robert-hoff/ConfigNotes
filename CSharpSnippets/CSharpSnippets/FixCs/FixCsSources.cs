@@ -7,18 +7,21 @@ namespace CSharpSnippets.FixCs
     {
         private const string SOURCE_DIR = "../../../";
         private const string TEST_FILE = @"../../../Program.cs";
-
-        // private const string SOURCE_DIR = @"Z:/github/roslyn/src/Analyzers";
-        // private const string TEST_FILE = @"Z:/github/roslyn/src/Analyzers/Core/Analyzers/AbstractBuiltInCodeStyleDiagnosticAnalyzer.cs";
-
         private const int DESIRED_BLANK_LINES_AT_EOF = 2;
         private const int EOL_PREFERENCE = FileWriter.LINUX_ENDINGS;
         private const int BOM_PREFERENCE = FileWriter.SAVE_UTF_FILE_WITHOUT_BOM;
 
+        // Roslyn files and preferences
+        // private const string SOURCE_DIR = @"Z:/github/roslyn/src/Analyzers";
+        // private const string TEST_FILE = @"Z:/github/roslyn/src/Analyzers/Core/Analyzers/AbstractBuiltInCodeStyleDiagnosticAnalyzer.cs";
+        // private const int DESIRED_BLANK_LINES_AT_EOF = 1;
+        // private const int EOL_PREFERENCE = FileWriter.WINDOWS_ENDINGS;
+        // private const int BOM_PREFERENCE = FileWriter.SAVE_UTF_FILE_WITH_BOM;
+
         public static void Run()
         {
             FixAllFiles();
-            // FixStylesForFile(TEST_FILE);
+            // FixSingleFile();
             // ShowFixesForFile(TEST_FILE);
             // ShowCsFilesWalkDirectory();
         }
@@ -30,6 +33,12 @@ namespace CSharpSnippets.FixCs
                 FixStylesForFile(filenamepath);
             }
         }
+
+        public static void FixSingleFile()
+        {
+            FixStylesForFile(TEST_FILE);
+        }
+
 
         // replace line endings and trim trailing spaces
         public static void FixStylesForFile(string filenamepath)
@@ -56,11 +65,11 @@ namespace CSharpSnippets.FixCs
         public static List<string> GetModifiedSourceLines(string filenamepath)
         {
             List<string> sourceLines = ReadFileAsStringList(filenamepath);
-            sourceLines = RemoveDoubleBlankLines(sourceLines);
-            sourceLines = RemoveBlankLinesFollowingBracket(sourceLines);
+            //sourceLines = RemoveDoubleBlankLines(sourceLines);
+            //sourceLines = RemoveBlankLinesFollowingBracket(sourceLines);
             sourceLines = RemoveBlankLinesLeadingBracket(sourceLines);
             sourceLines = SetDesiredEndOfFileBlankLines(sourceLines, DESIRED_BLANK_LINES_AT_EOF);
-            sourceLines = RemoveTrailingSpacesAndUnifyEndings(sourceLines);
+            // sourceLines = RemoveTrailingSpacesAndUnifyEndings(sourceLines);
             return sourceLines;
         }
 
