@@ -2,7 +2,7 @@ using System.Diagnostics;
 
 namespace CSharpSnippets.FixCs
 {
-    public class CopyFilesIntoStaging
+    public class CopyOverEditorConfig
     {
         private const string SOURCE_DIR = "Z:/github/ConfigNotes/CSharpSnippets";
         private const string TARGET_DIR = "Z:/github/ConfigNotes/CSharpConfig";
