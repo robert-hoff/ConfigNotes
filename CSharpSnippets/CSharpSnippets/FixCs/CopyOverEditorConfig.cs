@@ -2,7 +2,7 @@ using System.Diagnostics;
 
 namespace CSharpSnippets.FixCs
 {
-    public class CopyOverEditorConfig
+    public static class CopyOverEditorConfig
     {
         private const string SOURCE_DIR = "Z:/github/ConfigNotes/CSharpSnippets";
         private const string TARGET_DIR = "Z:/github/ConfigNotes/CSharpConfig";
@@ -17,6 +17,8 @@ namespace CSharpSnippets.FixCs
             string targetFile = $"{TARGET_DIR}/.editorconfig";
             DateTime sourceLastWrite = File.GetLastWriteTime(sourceFile);
             DateTime targetLastWrite = File.Exists(targetFile) ? File.GetLastWriteTime(targetFile) : new DateTime();
+            // Debug.WriteLine($"{sourceLastWrite}");
+            // Debug.WriteLine($"{targetLastWrite}");
             if (targetLastWrite > sourceLastWrite)
             {
                 Debug.WriteLine($"target file {targetLastWrite} is newer than source file {sourceLastWrite}, " +

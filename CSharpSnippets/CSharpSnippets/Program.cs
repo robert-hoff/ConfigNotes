@@ -1,6 +1,7 @@
 using CSharpSnippets.EditorConfigs;
+using CSharpSnippets.FixCs;
 using CSharpSnippets.FormElements;
-using CSharpSnippets.Testruns;
+using CSharpSnippets.Snippets;
 
 namespace CSharpSnippets
 {
@@ -10,13 +11,24 @@ namespace CSharpSnippets
         private static void Main()
         {
             // FormSnippets();
-            RunSnippets();
+            // CSharpSnippets();
+            // EditorConfigs();
+            // RunSnippets();
+            CopyOverConfigs();
+            // FixSelf();
         }
 
         public static void FormSnippets()
         {
             ApplicationConfiguration.Initialize();
-            Application.Run(new MainForm());
+            MainForm mainForm = new MainForm();
+            Application.Run(mainForm);
+            mainForm.Dispose();
+        }
+
+        public static void CSharpSnippets()
+        {
+            NullableTypes.Run();
         }
 
         public static void EditorConfigs()
@@ -27,8 +39,11 @@ namespace CSharpSnippets
         public static void RunSnippets()
         {
             // TestFileIO.RunTrials();
-            RunFixCsFiless.RunTrials();
+            FixCsSources.Run();
         }
+
+        public static void CopyOverConfigs() { CopyOverEditorConfig.CopyOverEditorconfigFile(); }
+        public static void FixSelf() { FixCsSources.FixSelf(); }
     }
 }
 

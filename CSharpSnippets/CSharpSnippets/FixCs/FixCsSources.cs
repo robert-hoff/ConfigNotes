@@ -5,7 +5,9 @@ namespace CSharpSnippets.FixCs
 {
     internal class FixCsSources
     {
-        private const string SOURCE_DIR = "../../../";
+        // private const string SOURCE_DIR = "../../../";
+        private const string SOURCE_DIR = @"X:\checkouts\VRF-Main\TestVRFDev";
+
         private const string TEST_FILE = @"../../../Program.cs";
         private const int DESIRED_BLANK_LINES_AT_EOF = 2;
         private const int EOL_PREFERENCE = FileWriter.LINUX_ENDINGS;
@@ -20,9 +22,9 @@ namespace CSharpSnippets.FixCs
 
         public static void Run()
         {
-            FixAllFiles();
+            // FixAllFiles();
             // FixSingleFile();
-            // ShowFixesForFile(TEST_FILE);
+            ShowFixesForFile(TEST_FILE);
             // ShowCsFilesWalkDirectory();
         }
 
@@ -39,6 +41,15 @@ namespace CSharpSnippets.FixCs
             FixStylesForFile(TEST_FILE);
         }
 
+        public static void FixSelf()
+        {
+            string sourceDir = "../../../";
+            foreach (string filenamepath in GetCsFilesWalkDirectory(sourceDir))
+            {
+                FixStylesForFile(filenamepath);
+            }
+        }
+
         // replace line endings and trim trailing spaces
         public static void FixStylesForFile(string filenamepath)
         {
@@ -48,7 +59,7 @@ namespace CSharpSnippets.FixCs
             {
                 fw.WriteLine(line);
             }
-            fw.CloseStreamWriter();
+            FileWriter.CloseFileWriter(fw);
         }
 
         public static void ShowFixesForFile(string filenamepath)

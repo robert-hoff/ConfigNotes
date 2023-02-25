@@ -1,7 +1,7 @@
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Text;
 
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 namespace CSharpSnippets.FileIO
 {
     public class FileWriter : IDisposable
@@ -43,8 +43,10 @@ namespace CSharpSnippets.FileIO
                 _ => throw new Exception($"Unrecognized value for useBom {useBom}")
             };
             Debug.WriteLine($"Writing to {outputFilenamepath}");
-            sw = new StreamWriter(outputFilenamepath, false, new UTF8Encoding(saveUtfFileWithBom));
-            sw.NewLine = newLineCharacters;
+            sw = new(outputFilenamepath, false, new UTF8Encoding(saveUtfFileWithBom))
+            {
+                NewLine = newLineCharacters
+            };
         }
 
         public void CloseStreamWriter()
@@ -55,6 +57,7 @@ namespace CSharpSnippets.FileIO
             }
             sw.Close();
             swOpen = false;
+            Dispose();
         }
 
         public void Dispose()
@@ -82,6 +85,7 @@ namespace CSharpSnippets.FileIO
          */
         public void Write(string text)
         {
+            Contract.Requires(text != null);
             sw.Write(text.ReplaceLineEndings(newLineCharacters));
             if (showOutputToConsole)
             {
@@ -111,6 +115,16 @@ namespace CSharpSnippets.FileIO
         private void WriteHtmlFooter()
         {
             sw.WriteLine("</pre>\n</html>");
+        }
+
+        public static void CloseFileWriter(FileWriter fw)
+        {
+            if (fw == null)
+            {
+                throw new Exception("CloseFileWriter called on a null object");
+            }
+            fw.CloseStreamWriter();
+            fw.Dispose();
         }
     }
 }

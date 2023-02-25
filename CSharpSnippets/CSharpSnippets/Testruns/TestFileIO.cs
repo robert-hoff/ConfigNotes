@@ -3,7 +3,7 @@ using CSharpSnippets.FileIO;
 
 namespace CSharpSnippets.Testruns
 {
-    public class TestFileIO
+    public static class TestFileIO
     {
         private const string DEFAULT_OUTPUT_DIR = "../../../../data-output";
 
