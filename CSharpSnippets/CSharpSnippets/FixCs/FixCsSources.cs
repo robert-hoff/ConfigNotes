@@ -6,21 +6,20 @@ namespace CSharpSnippets.FixCs
     internal class FixCsSources
     {
         // private const string SOURCE_DIR = "../../../";
-        private const string SOURCE_DIR = @"X:\checkouts\VRF-Main\TestVRFDev";
-
+        // private const string SOURCE_DIR = @"X:\checkouts\VRF-Main\TestVRFDev";
         // private const string TEST_FILE = @"../../../Program.cs";
-
-        private const string TEST_FILE = @"Z:\github\ConfigNotes\CSharpSnippets\CSharpSnippets\Snippets\NullableTypes.cs";
-        private const int DESIRED_BLANK_LINES_AT_EOF = 2;
-        private const int EOL_PREFERENCE = FileWriter.LINUX_ENDINGS;
-        private const int BOM_PREFERENCE = FileWriter.SAVE_UTF_FILE_WITHOUT_BOM;
+        // private const string TEST_FILE = @"Z:\github\ConfigNotes\CSharpSnippets\CSharpSnippets\Snippets\NullableTypes.cs";
+        // private const int DESIRED_BLANK_LINES_AT_EOF = 2;
+        // private const int EOL_PREFERENCE = FileWriter.LINUX_ENDINGS;
+        // private const int BOM_PREFERENCE = FileWriter.SAVE_UTF_FILE_WITHOUT_BOM;
 
         // Roslyn files and preferences
-        // private const string SOURCE_DIR = @"Z:/github/roslyn/src/Analyzers";
+        private const string SOURCE_DIR = @"Z:/github/roslyn/src/Analyzers";
         // private const string TEST_FILE = @"Z:/github/roslyn/src/Analyzers/Core/Analyzers/AbstractBuiltInCodeStyleDiagnosticAnalyzer.cs";
-        // private const int DESIRED_BLANK_LINES_AT_EOF = 1;
-        // private const int EOL_PREFERENCE = FileWriter.WINDOWS_ENDINGS;
-        // private const int BOM_PREFERENCE = FileWriter.SAVE_UTF_FILE_WITH_BOM;
+        private const string TEST_FILE = @"Z:\github\roslyn\src\Analyzers\CSharp\Tests\MakeMethodAsynchronous\MakeMethodAsynchronousTests.cs";
+        private const int DESIRED_BLANK_LINES_AT_EOF = 1;
+        private const int EOL_PREFERENCE = FileWriter.WINDOWS_ENDINGS;
+        private const int BOM_PREFERENCE = FileWriter.SAVE_UTF_FILE_WITH_BOM;
 
         public static void Run()
         {

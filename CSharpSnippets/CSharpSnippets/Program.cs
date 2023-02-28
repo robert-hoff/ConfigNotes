@@ -15,7 +15,6 @@ namespace CSharpSnippets
             // FormSnippets();
             CSharpSnippets();
             // EditorConfigs();
-            // RunSnippets();
             // CopyOverConfigs();
             // FixSelf();
         }
@@ -30,19 +29,16 @@ namespace CSharpSnippets
 
         public static void CSharpSnippets()
         {
-            CheckMultilineDelimiter.Run();
+            // CheckMultilineDelimiter.Run();
             // NullableTypes.Run();
+            // TestFileIO.Run();
+            // FixCsSources.Run();
+            FixCsSources2.CleanupRoslynSources();
         }
 
         public static void EditorConfigs()
         {
             EditorConfigsSnippets.RunSnippets();
-        }
-
-        public static void RunSnippets()
-        {
-            // TestFileIO.Run();
-            // FixCsSources.Run();
         }
 
         public static void CopyOverConfigs() { CopyOverEditorConfig.CopyOverEditorconfigFile(); }
