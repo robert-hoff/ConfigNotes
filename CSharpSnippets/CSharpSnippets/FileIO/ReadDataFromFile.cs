@@ -18,6 +18,7 @@ namespace CSharpSnippets.FileIO
             }
             return data;
         }
+
         public static List<string> ReadSingleColumnStringData(string filename, string folder = DEFAULT_INPUT_FOLDER)
         {
             List<string> data = new();
@@ -30,6 +31,29 @@ namespace CSharpSnippets.FileIO
                 }
             }
             return data;
+        }
+
+        public static string ReadDataAsSingleString(string filename, string folder = DEFAULT_INPUT_FOLDER)
+        {
+            string result = "";
+            string[] lines = File.ReadAllLines($"{folder}/{filename}");
+            foreach (string line in lines)
+            {
+                result += $"{line}\n";
+            }
+            return result[..^1];
+        }
+
+        public static string ReadFirstLineAsString(string filename, string folder = DEFAULT_INPUT_FOLDER, bool removeTrailingComment = false)
+        {
+            string result = "";
+            string[] lines = File.ReadAllLines($"{folder}/{filename}");
+            result = lines[0];
+            if (removeTrailingComment && result.IndexOf("//") > -1)
+            {
+                result = result[..result.IndexOf("//")];
+            }
+            return result.TrimEnd();
         }
     }
 }

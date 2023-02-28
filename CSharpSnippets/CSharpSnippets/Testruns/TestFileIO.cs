@@ -7,7 +7,7 @@ namespace CSharpSnippets.Testruns
     {
         private const string DEFAULT_OUTPUT_DIR = "../../../../data-output";
 
-        public static void RunTrials()
+        public static void Run()
         {
             TestSaveIntDataToFile();
             // TestFileWrite2();
@@ -41,7 +41,7 @@ namespace CSharpSnippets.Testruns
             fw.Write("1 ");
             fw.Write("2 ");
             fw.Write("3\r\n");
-            fw.CloseStreamWriter();
+            FileWriter.CloseFileWriter(fw);
         }
 
         public static void TestFileWrite1()
@@ -57,7 +57,7 @@ namespace CSharpSnippets.Testruns
             fw.Write("1 ");
             fw.Write("2 ");
             fw.Write("3\r\n");
-            fw.CloseStreamWriter();
+            FileWriter.CloseFileWriter(fw);
         }
 
         public static void TestFileReadStringData()

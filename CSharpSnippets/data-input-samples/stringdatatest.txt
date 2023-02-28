@@ -1,0 +1,12 @@
+    @"    a sda sdsd   ";         // this _is not_ a multiline string delimeter START
+string multi = @" @ "" "";        // this _is_ a multiline string delimeter START
+string multi = @"  dsffdsfdsf     // this _is_ a multiline string delimeter START
+string multi = @""";              // this _is_ a multiline string delimeter START
+string multi = @"";               // this _is not_ a multiline string delimeter START
+string multi = @" "" "" "";       // this _is_ a multiline string delimeter START
+";                                // this _is_ a multiline string delimeter END
+"";                               // this _is not_ a multiline string delimeter END
+@ "    asdasdsd   ";              // this _is_ a multiline string delimeter END
+
+
+

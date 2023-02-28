@@ -8,7 +8,9 @@ namespace CSharpSnippets.FixCs
         // private const string SOURCE_DIR = "../../../";
         private const string SOURCE_DIR = @"X:\checkouts\VRF-Main\TestVRFDev";
 
-        private const string TEST_FILE = @"../../../Program.cs";
+        // private const string TEST_FILE = @"../../../Program.cs";
+
+        private const string TEST_FILE = @"Z:\github\ConfigNotes\CSharpSnippets\CSharpSnippets\Snippets\NullableTypes.cs";
         private const int DESIRED_BLANK_LINES_AT_EOF = 2;
         private const int EOL_PREFERENCE = FileWriter.LINUX_ENDINGS;
         private const int BOM_PREFERENCE = FileWriter.SAVE_UTF_FILE_WITHOUT_BOM;
@@ -23,8 +25,8 @@ namespace CSharpSnippets.FixCs
         public static void Run()
         {
             // FixAllFiles();
-            // FixSingleFile();
-            ShowFixesForFile(TEST_FILE);
+            FixSingleFile();
+            // ShowFixesForFile(TEST_FILE);
             // ShowCsFilesWalkDirectory();
         }
 
@@ -75,7 +77,7 @@ namespace CSharpSnippets.FixCs
         public static List<string> GetModifiedSourceLines(string filenamepath)
         {
             List<string> sourceLines = ReadFileAsStringList(filenamepath);
-            sourceLines = RemoveDoubleBlankLines(sourceLines);
+            // sourceLines = RemoveDoubleBlankLines(sourceLines);
             sourceLines = RemoveBlankLinesFollowingBracket(sourceLines);
             sourceLines = RemoveBlankLinesLeadingBracket(sourceLines);
             sourceLines = SetDesiredEndOfFileBlankLines(sourceLines, DESIRED_BLANK_LINES_AT_EOF);
@@ -110,46 +112,52 @@ namespace CSharpSnippets.FixCs
         }
 
         /*
-         * Remove any blank lines leading open braces '}' but not applied to '{'
+         * Remove any blank lines leading open bracket '}' but not applied to '{'
          *
          */
         public static List<string> RemoveBlankLinesLeadingBracket(List<string> lines)
         {
             bool[] removeLines = new bool[lines.Count];
-            int prevSingleBracket = -1;
+            bool bracketEncountered = false;
             for (int i = lines.Count - 1; i >= 0; i--)
             {
                 if (lines[i].Length > 0 && lines[i].Trim().Equals("}"))
                 {
-                    prevSingleBracket = i;
+                    bracketEncountered = true;
                 }
-                if (prevSingleBracket == i + 1 && string.IsNullOrWhiteSpace(lines[i]))
+                if (!string.IsNullOrWhiteSpace(lines[i]) && !lines[i].Trim().Equals("}"))
+                {
+                    bracketEncountered = false;
+                }
+                if (bracketEncountered && string.IsNullOrWhiteSpace(lines[i]))
                 {
                     removeLines[i] = true;
-                    prevSingleBracket = i;
                 }
             }
             return ApplyRemoveListedIndexes(lines, removeLines);
         }
 
         /*
-         * Remove any blank lines following open braces '{' but not applied to '}'
+         * Remove any blank lines following open bracket '{' but not applied to '}'
          *
          */
         public static List<string> RemoveBlankLinesFollowingBracket(List<string> lines)
         {
             bool[] removeLines = new bool[lines.Count];
-            int prevSingleBracket = -1;
+            bool bracketEncountered = false;
             for (int i = 0; i < lines.Count; i++)
             {
                 if (lines[i].Length > 0 && lines[i].Trim().Equals("{"))
                 {
-                    prevSingleBracket = i;
+                    bracketEncountered = true;
                 }
-                if (prevSingleBracket == i - 1 && string.IsNullOrWhiteSpace(lines[i]))
+                if (!string.IsNullOrWhiteSpace(lines[i]) && !lines[i].Trim().Equals("{"))
+                {
+                    bracketEncountered = false;
+                }
+                if (bracketEncountered && string.IsNullOrWhiteSpace(lines[i]))
                 {
                     removeLines[i] = true;
-                    prevSingleBracket = i;
                 }
             }
             return ApplyRemoveListedIndexes(lines, removeLines);

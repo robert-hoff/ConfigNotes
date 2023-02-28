@@ -1,7 +1,9 @@
+#pragma warning disable IDE0005 // Using directive is unnecessary.
 using CSharpSnippets.EditorConfigs;
 using CSharpSnippets.FixCs;
 using CSharpSnippets.FormElements;
 using CSharpSnippets.Snippets;
+using CSharpSnippets.Testruns;
 
 namespace CSharpSnippets
 {
@@ -11,10 +13,10 @@ namespace CSharpSnippets
         private static void Main()
         {
             // FormSnippets();
-            // CSharpSnippets();
+            CSharpSnippets();
             // EditorConfigs();
             // RunSnippets();
-            CopyOverConfigs();
+            // CopyOverConfigs();
             // FixSelf();
         }
 
@@ -28,7 +30,8 @@ namespace CSharpSnippets
 
         public static void CSharpSnippets()
         {
-            NullableTypes.Run();
+            CheckMultilineDelimiter.Run();
+            // NullableTypes.Run();
         }
 
         public static void EditorConfigs()
@@ -38,8 +41,8 @@ namespace CSharpSnippets
 
         public static void RunSnippets()
         {
-            // TestFileIO.RunTrials();
-            FixCsSources.Run();
+            // TestFileIO.Run();
+            // FixCsSources.Run();
         }
 
         public static void CopyOverConfigs() { CopyOverEditorConfig.CopyOverEditorconfigFile(); }
