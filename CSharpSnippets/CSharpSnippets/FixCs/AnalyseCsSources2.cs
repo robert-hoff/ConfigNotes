@@ -34,20 +34,24 @@ namespace CSharpSnippets.FixCs
             // int fileNr = 271; // Z:/github/roslyn/src/Workspaces\MSBuildTest\VisualStudioMSBuildWorkspaceTests.cs
             // int fileNr = 351; // Z:/github/roslyn/src/Compilers\Core\MSBuildTaskTests\CscTests.cs
             // int fileNr = 353; // Z:/github/roslyn/src/Compilers\Core\MSBuildTaskTests\DotNetSdkTests.cs
-            int fileNr = 1162; // Z:/github/roslyn/src/EditorFeatures\CSharpTest\QuickInfo\SemanticQuickInfoSourceTests.cs
+            // int fileNr = 1162; // Z:/github/roslyn/src/EditorFeatures\CSharpTest\QuickInfo\SemanticQuickInfoSourceTests.cs
+            int fileNr = 8366; // Z:/github/roslyn/src/Compilers\CSharp\Test\Emit\CodeGen\CodeGenDynamicTests.cs
+            // int fileNr = 7898; // Z:/github/roslyn/src/Compilers\CSharp\Test\Emit\CodeGen\CodeGenDynamicTests.cs
             string[] files = GetFileList(SOURCE_DIR);
-            new FixCsSources3(files[fileNr], fileNr);
-            // new FixCsSources3("Z:/github/roslyn/src/Dependencies\\Collections\\SegmentedDictionary`2.cs", 50);
+            new FixCsSources3(files[fileNr], fileNr, showFixedLines: true);
+            // new FixCsSources3("Z:/github/roslyn/src/Dependencies\\Collections\\SegmentedDictionary`2.cs", 50), showFixedLines: true;
+            // new FixCsSources3("Z:\\github\\ConfigNotes\\CSharpSnippets\\CSharpSnippets\\FixCs\\AnalyseCsSources2.cs", 50, showFixedLines: true); // also needs fixing
+            // new FixCsSources3("Z:\\github\\ConfigNotes\\CSharpSnippets\\CSharpSnippets\\Snippets\\NullableTypes.cs", 50, showFixedLines: true);
         }
 
 
         public static void Analysis1()
         {
             string[] files = GetFileList(SOURCE_DIR);
-            for (int i = 350; i < files.Length; i++)
+            for (int i = 0; i < files.Length; i++)
             {
                 new FixCsSources3(files[i], i);
-                if (i == 1700)
+                if (i == 16000)
                 {
                     break;
                 }

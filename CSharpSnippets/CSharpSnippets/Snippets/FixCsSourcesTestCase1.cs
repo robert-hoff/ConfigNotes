@@ -26,26 +26,42 @@ namespace CSharpSnippets.Snippets
 
 
             string multiline3 = @"
-                    1
-            @ ""    asdasdsd   ";
+Block[B0] - Entry
+    Statements (0)
+    Next (Regular) Block[B1]
+Block[B1] - Block
+    Predecessors: [B0]
+    Statements (1)
+        ISimpleAssignmentOperation (OperationKind.SimpleAssignment, Type: System.Int32, IsImplicit) (Syntax: '= 0')
+          Left: 
+            IParameterReferenceOperation: p (OperationKind.ParameterReference, Type: System.Int32, IsImplicit) (Syntax: '= 0')
+          Right: 
+            ILiteralOperation (OperationKind.Literal, Type: System.Int32, Constant: 0) (Syntax: '0')
 
-                    //";
-
-            // ;
-
-
-            /*
-
-            string multiline2 = @"
-                    1
-                    ";
+    Next (Regular) Block[B2]
+Block[B2] - Exit
+    Predecessors: [B1]
+    Statements (0)"
+           ;
 
 
-             */
+        //";
+
+        // ;
+
+
+        /*
+
+        string multiline2 = @"
+                1
+                ";
+
+
+         */
 
 
 
-            double a = 3;
+        double a = 3;
             double b = 4;
             Console.WriteLine($"Area of the right triangle with legs of {a} and {b /* hello */} is {0.5 * a * b}");
             Console.WriteLine($"Length {($"hello".PadRight(20)) /*  */}");
@@ -116,6 +132,16 @@ namespace CSharpSnippets.Snippets
 
                     */
                      ";
+
+            string source = @"#line 1 """"""
+            file.cs
+            """"""U8";
+
+
+            string helloz = (@"
+                file.cs
+                ""
+                " + "\"\"\"");
 
 
 

@@ -15,9 +15,10 @@ namespace CSharpSnippets.Snippets
         {
 
             // TestMultilineDelimiterStart();
-            // TestMultilineDelimiterEnd();
+            TestMultilineDelimiterEnd();
             // SingleTestMultilineDelimiter();
-            RegexReplacement5();
+            // RegexReplacement6();
+            // RegexReplacement5();
             // RegexReplacement4();
             // RegexReplacement3();
             // RegexReplacement2();
@@ -41,11 +42,13 @@ namespace CSharpSnippets.Snippets
 
         public static void TestMultilineDelimiterEnd()
         {
-            int[] testIndexes = { 6, 7, 8 };
-            foreach (int ind in testIndexes)
+            // true, false, true, true, true, true
+            int[] lineNumbers = { 7, 8, 9, 22, 23, 24};
+            foreach (int ln in lineNumbers)
             {
+                int ind = ln - 1;
                 string testdata = ReadDataFromFile.ReadLineAsString("stringdatatest.txt", ind, removeTrailingComment: true);
-                Debug.WriteLine($"{testdata,-100} {MultilineDelimiterEnd(testdata)}");
+                Debug.WriteLine($"line#={ln,3} ###{testdata,-100}### {MultilineDelimiterEnd(testdata)}");
             }
         }
 
@@ -56,16 +59,28 @@ namespace CSharpSnippets.Snippets
 
         public static void SingleTestMultilineDelimiter()
         {
-            string testdata = ReadDataFromFile.ReadLineAsString("stringdatatest.txt", 4, removeTrailingComment: true);
-            Debug.WriteLine($"{testdata,-100} {MultilineDelimiterStart(testdata)}");
+            string testdata = ReadDataFromFile.ReadLineAsString("stringdatatest.txt", 23, removeTrailingComment: true);
+            // Debug.WriteLine($"{testdata,-100} {MultilineDelimiterStart(testdata)}");
+            Debug.WriteLine($"{testdata,-100} {MultilineDelimiterEnd(testdata)}");
+            // Debug.WriteLine($"{testdata,-100} {MultilineDelimiterEndOldOld(testdata)}");
         }
 
 
-        // private static Regex regex = new Regex("\"(?:\\.|[^\\"])*\"");
-        // private static Regex regex = new Regex("\"(?:\\.|[^\\"])*\"");
 
-
+        // using regex \"(?:\\.|[^\\"])*\"
+        // -- there are failing cases
+        // "\"\"\""
         private static Regex matchStringLiterals = new Regex("\\\"(?:\\\\.|[^\\\\\"])*\\\"");
+        // this was derived as an alternative \"(\\.|[^\"])*\"
+        // private static Regex matchStringLiterals = new Regex("\\\"(\\\\.|[^\\\"])*\\\"");
+
+
+        public static void RegexReplacement6()
+        {
+            string testdata = ReadDataFromFile.ReadLineAsString("stringdatatest.txt", 22, removeTrailingComment: true);
+            Debug.WriteLine($"{testdata}");
+        }
+
 
 
         public static void RegexReplacement5()
@@ -77,7 +92,8 @@ namespace CSharpSnippets.Snippets
             // string testdata = ReadDataFromFile.ReadLineAsString("stringdatatest.txt", 13);
             // string testdata = ReadDataFromFile.ReadLineAsString("stringdatatest.txt", 14);
             // string testdata = ReadDataFromFile.ReadLineAsString("stringdatatest.txt", 16);
-            string testdata = ReadDataFromFile.ReadLineAsString("stringdatatest.txt", 17);
+            // string testdata = ReadDataFromFile.ReadLineAsString("stringdatatest.txt", 17);
+            string testdata = ReadDataFromFile.ReadLineAsString("stringdatatest.txt", 18);
             // Debug.WriteLine($"{testdata}");
 
 
@@ -109,11 +125,46 @@ namespace CSharpSnippets.Snippets
             }
         }
 
+
+        public static bool MultilineDelimiterEnd(string line)
+        {
+            string reduced = Regex.Replace(line, "{.*}", "").Replace("\"\"", "");
+            return reduced.IndexOf("\"") != -1 && (reduced.IndexOf("\"") == reduced.Length - 1 || reduced[reduced.IndexOf("\"") + 1] != '"');
+        }
+
+
         /*
          * C# code is a multi-line string delimeter (end)if it has a single " after removing double ""
          *
          */
-        public static bool MultilineDelimiterEnd(string line)
+        public static bool MultilineDelimiterEnd4(string line)
+        {
+            string reduced = Regex.Replace(line, "{.*}", "").Replace("\"\"", "");
+            return reduced.IndexOf("\"") != -1 &&
+                (reduced.LastIndexOf("\"") == reduced.IndexOf("\"") || reduced[reduced.IndexOf("\"") + 1] != '"');
+        }
+
+
+
+        public static bool MultilineDelimiterEnd2(string line)
+        {
+            string reduced = Regex.Replace(line, "{.*}", "").Replace("\"\"", "");
+            while (reduced.LastIndexOf("\"") != reduced.IndexOf("\""))
+            {
+                reduced = matchStringLiterals.Replace(reduced, "", 1);
+            }
+
+            Debug.WriteLine($"{reduced}");
+            return reduced.LastIndexOf("\"") > -1;
+        }
+
+
+
+        /*
+         * C# code is a multi-line string delimeter (end)if it has a single " after removing double ""
+         *
+         */
+        public static bool MultilineDelimiterEnd3(string line)
         {
             string reduced = Regex.Replace(line, "{.*}", "").Replace("\"\"", "");
             return reduced.IndexOf("\"") != -1 && reduced.LastIndexOf("\"") == reduced.IndexOf("\"");
