@@ -1,17 +1,21 @@
-    @"    a sda sdsd   ";         // this _is not_ a multiline string delimeter START
-string multi = @" @ "" "";        // this _is_ a multiline string delimeter START
-string multi = @"  dsffdsfdsf     // this _is_ a multiline string delimeter START
-string multi = @""";              // this _is_ a multiline string delimeter START
-string multi = @"";               // this _is not_ a multiline string delimeter START
-string multi = @" "" "" "";       // this _is_ a multiline string delimeter START
-";                                // this _is_ a multiline string delimeter END
-"";                               // this _is not_ a multiline string delimeter END
-@ "    asdasdsd   ";              // this _is_ a multiline string delimeter END
+    @"    a sda sdsd   ";         // this _is not_ a multiline string delimeter START       false
+string multi = @" @ "" "";        // this _is_ a multiline string delimeter START           true
+string multi = @"  dsffdsfdsf     // this _is_ a multiline string delimeter START           true
+string multi = @""";              // this _is_ a multiline string delimeter START           true
+string multi = @"";               // this _is not_ a multiline string delimeter START       false
+string multi = @" "" "" "";       // this _is_ a multiline string delimeter START           true
+";                                // this _is_ a multiline string delimeter END             true
+"";                               // this _is not_ a multiline string delimeter END         false
+@ ""    asdasdsd   ";             // this _is_ a multiline string delimeter END             true
 Console.WriteLine($"Length {($"h\"ello".PadRight(20)) /* " " " " " */}"); /// comment with " "" " and other crap in it
 output.WriteLine($"bool flags = ({ftHeader.Arg1},{ftHeader.Arg2},{ftHeader.Arg3}," +
     $"{ftHeader.Arg4},{ftHeader.Arg5},{ftHeader.Arg6},{ftHeader.Arg7}) (related to editor dependencies)");
 output.Write($" \\\\{relatedFile.Replace("/", "\\", StringComparison.Ordinal)}");
 string a = $"h{p}"; string b = $"h{p}"; string c = $"h{p}";
+var commandLineArgs = $@"""-pipename:""";  // this _is not_ a multiline deliiter START      false
+[Fact(Skip = "https://github.com/dotnet/roslyn/issues/46414")]
+string stringfulleofescapes = "asdfsdf\"\"\"\"sadfsdf\"\";ssssdf\""; string secondString = "";
+        [WorkItem(546171, "http://vstfdevdiv:8080/DevDiv2/DevDiv/_workitems/edit/546171")]
 
 
 

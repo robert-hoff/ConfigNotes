@@ -214,19 +214,29 @@ namespace CSharpSnippets.FixCs
             return modifiedLines;
         }
 
-        public static List<string> ReadFileAsStringList(string filenamepath, bool omitEmptyLines = false)
+        public static string[] ReadFileAsStringArray(string filenamepath)
         {
-            List<string> data = new();
-            string[] lines = File.ReadAllLines($"{filenamepath}");
-            foreach (string line in lines)
-            {
-                if (!omitEmptyLines || !string.IsNullOrEmpty(line.Trim()))
-                {
-                    data.Add(line);
-                }
-            }
-            return data;
+            return File.ReadAllLines($"{filenamepath}");
         }
+
+        public static List<string> ReadFileAsStringList(string filenamepath)
+        {
+            return File.ReadAllLines($"{filenamepath}").ToList();
+        }
+
+        //public static List<string> ReadFileAsStringList(string filenamepath, bool omitEmptyLines = false)
+        //{
+        //    List<string> data = new();
+        //    string[] lines = File.ReadAllLines($"{filenamepath}");
+        //    foreach (string line in lines)
+        //    {
+        //        if (!omitEmptyLines || !string.IsNullOrEmpty(line.Trim()))
+        //        {
+        //            data.Add(line);
+        //        }
+        //    }
+        //    return data;
+        //}
 
         public static void ShowCsFilesWalkDirectory()
         {

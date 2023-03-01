@@ -35,8 +35,10 @@ namespace CSharpSnippets
             // FixCsSources.Run();
             // FixCsSources2.CleanupRoslynSources();
             // RegexReplacements.Run();
-            AnalyseCsSources.Run();
+            // AnalyseCsSources.Run();
             // GenericCSharp.Run();
+            AnalyseCsSources2.Run();
+            // PrintSourceTypeArray.Run();
         }
 
         public static void EditorConfigs()

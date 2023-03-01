@@ -19,7 +19,30 @@ namespace CSharpSnippets.Snippets
             // string multiline1 = @"  //  ""
             string multiline2 = @"
                     1
+                    ;;
+                    ;;
+
+                    "; string sdsdf = "";
+
+
+            string multiline3 = @"
+                    1
+            @ ""    asdasdsd   ";
+
+                    //";
+
+            // ;
+
+
+            /*
+
+            string multiline2 = @"
+                    1
                     ";
+
+
+             */
+
 
 
             double a = 3;
@@ -36,6 +59,25 @@ namespace CSharpSnippets.Snippets
 
             /*
             Console.WriteLine($"Area of the { right triangle with legs of ");   }  */
+
+
+            /*
+             *
+             *
+             *
+             *
+             *
+             *
+        //             *
+             *
+             *
+             *
+             *
+             *
+             *
+             *
+             *
+             */
 
 
 
@@ -62,9 +104,20 @@ namespace CSharpSnippets.Snippets
 
             string notMultline2 = @" @ ""  "; // hkhkjh "" " ";
 
-            string multiline3 = @" @ "" ""; // hkhkjh
+            string multiline4 = @" @ "" ""; // hkhkjh
                      "" // hello ""
                      "; // hello
+
+
+
+            string multiline5 = @"
+
+                    /*
+
+                    */
+                     ";
+
+
 
 
             // /*
@@ -88,6 +141,17 @@ namespace CSharpSnippets.Snippets
              *
              *
              /* */ // sdfsdf
+
+
+            /*
+             *
+             *   /*  */
+
+            /*
+            *
+            *
+            *
+            */
 
 
 
