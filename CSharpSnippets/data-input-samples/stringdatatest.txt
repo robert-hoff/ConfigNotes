@@ -7,6 +7,16 @@ string multi = @" "" "" "";       // this _is_ a multiline string delimeter STAR
 ";                                // this _is_ a multiline string delimeter END
 "";                               // this _is not_ a multiline string delimeter END
 @ "    asdasdsd   ";              // this _is_ a multiline string delimeter END
+Console.WriteLine($"Length {($"h\"ello".PadRight(20)) /* " " " " " */}"); /// comment with " "" " and other crap in it
+output.WriteLine($"bool flags = ({ftHeader.Arg1},{ftHeader.Arg2},{ftHeader.Arg3}," +
+    $"{ftHeader.Arg4},{ftHeader.Arg5},{ftHeader.Arg6},{ftHeader.Arg7}) (related to editor dependencies)");
+output.Write($" \\\\{relatedFile.Replace("/", "\\", StringComparison.Ordinal)}");
+string a = $"h{p}"; string b = $"h{p}"; string c = $"h{p}";
+
+
+
+
+
 
 
 

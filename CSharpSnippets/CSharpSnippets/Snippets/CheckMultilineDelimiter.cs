@@ -8,7 +8,7 @@ namespace CSharpSnippets.Snippets
     {
         public static void Run()
         {
-            string myStr3 = ReadDataFromFile.ReadFirstLineAsString("stringdatatest.txt", removeTrailingComment: true);
+            string myStr3 = ReadDataFromFile.ReadLineAsString("stringdatatest.txt", lineNumber: 0, removeTrailingComment: true);
             Debug.WriteLine($"{myStr3}");
             Debug.WriteLine($"{MultilineDelimiterStart(myStr3)}");
         }

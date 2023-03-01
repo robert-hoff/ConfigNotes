@@ -33,7 +33,10 @@ namespace CSharpSnippets
             // NullableTypes.Run();
             // TestFileIO.Run();
             // FixCsSources.Run();
-            FixCsSources2.CleanupRoslynSources();
+            // FixCsSources2.CleanupRoslynSources();
+            // RegexReplacements.Run();
+            AnalyseCsSources.Run();
+            // GenericCSharp.Run();
         }
 
         public static void EditorConfigs()

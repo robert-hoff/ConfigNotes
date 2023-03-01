@@ -44,11 +44,11 @@ namespace CSharpSnippets.FileIO
             return result[..^1];
         }
 
-        public static string ReadFirstLineAsString(string filename, string folder = DEFAULT_INPUT_FOLDER, bool removeTrailingComment = false)
+        public static string ReadLineAsString(string filename, int lineNumber, string folder = DEFAULT_INPUT_FOLDER, bool removeTrailingComment = false)
         {
             string result = "";
             string[] lines = File.ReadAllLines($"{folder}/{filename}");
-            result = lines[0];
+            result = lines[lineNumber];
             if (removeTrailingComment && result.IndexOf("//") > -1)
             {
                 result = result[..result.IndexOf("//")];

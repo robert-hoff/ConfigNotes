@@ -10,8 +10,7 @@ namespace CSharpSnippets.FixCs
         private const string SOURCE_DIR = @"Z:/github/roslyn/src/Analyzers";
         // private const string TEST_FILE = @"Z:/github/roslyn/src/Analyzers/Core/Analyzers/AbstractBuiltInCodeStyleDiagnosticAnalyzer.cs";
         // private const string TEST_FILE = @"Z:\github\roslyn\src\Analyzers\CSharp\Tests\MakeMethodAsynchronous\MakeMethodAsynchronousTests.cs";
-        private const string TEST_FILE = @"Z:\github\ConfigNotes\CSharpSnippets\CSharpSnippets\Snippets\NullableTypes.cs";
-        // private const string TEST_FILE = @"Z:\github\ConfigNotes\CSharpSnippets\CSharpSnippets\Snippets\NullableTypes2.cs";
+        private const string TEST_FILE = @"Z:\github\ConfigNotes\CSharpSnippets\CSharpSnippets\Snippets\FixCsSourcesTestCase1.cs";
 
         public static void CleanupRoslynSources()
         {
@@ -65,11 +64,15 @@ namespace CSharpSnippets.FixCs
 
 
 
-            for (int i = 0; i < multistringLines.Length; i++)
-            {
-                Debug.WriteLine($"{i,2:#0}   multistring = {(multistringLines[i] ? "True" : "F   ")} " +
-                    $"commented = {(commentedLines[i] ? "True" : "F   ")}");
-            }
+            ShowSourceCodeAnalysis();
+
+            //for (int i = 0; i < multistringLines.Length; i++)
+            //{
+            //    Debug.WriteLine($"{i,2:#0}   multistring = {(multistringLines[i] ? "True" : "F   ")} " +
+            //        $"commented = {(commentedLines[i] ? "True" : "F   ")}");
+            //}
+
+
         }
 
 
@@ -247,6 +250,54 @@ namespace CSharpSnippets.FixCs
             }
         }
 
+
+
+
+        private void ShowSourceCodeAnalysis()
+        {
+            for (int i = 0; i < sourceLines.Length; i++)
+            {
+                if (!extraneousBlankLines[i])
+                {
+                    if (multistringLines[i])
+                    {
+                        Debug.WriteLine($"{sourceLines[i],-100} // MULTI");
+                    }
+                    else if (commentedLines[i])
+                    {
+                        Debug.WriteLine($"{sourceLines[i],-100} // COMMENT");
+                    }
+                    else
+                    {
+                        Debug.WriteLine(sourceLines[i]);
+                    }
+                }
+            }
+        }
+
+        private void MarkLinesAsCommentOrMultistring(string fileNamePath, int eolPreference, int bomPreference)
+        {
+            FileWriter fw = new FileWriter(fileNamePath, EOL: eolPreference, useBom: bomPreference);
+            for (int i = 0; i < sourceLines.Length; i++)
+            {
+                if (!extraneousBlankLines[i])
+                {
+                    if (multistringLines[i])
+                    {
+                        fw.WriteLine($"{sourceLines[i],-100} // MULTI");
+                    }
+                    else if (commentedLines[i])
+                    {
+                        fw.WriteLine($"{sourceLines[i],-100} // COMMENT");
+                    }
+                    else
+                    {
+                        fw.WriteLine(sourceLines[i]);
+                    }
+                }
+            }
+            FileWriter.CloseFileWriter(fw);
+        }
 
 
 
