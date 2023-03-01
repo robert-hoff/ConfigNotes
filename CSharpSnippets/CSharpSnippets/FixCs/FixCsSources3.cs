@@ -14,22 +14,21 @@ namespace CSharpSnippets.FixCs
 
         public enum SourceType
         {
-            GenericUnassigned = 0,
-            GenericLine = 1,
-            BlankLine = 2,
+            GenericUnassigned = 1,
+            GenericLine = 2,
+            BlankLine = 3,
             CommentLine = 4,
-            CommentLineTrailing = 8,
-            CommentBlock = 16,
-            CommentBlockInlined = 32,
-            DocComment = 64,
-            QuadComment = 128,
-            MultiString = 256,
+            CommentLineTrailing = 5,
+            CommentBlock = 6,
+            CommentBlockInlined = 7,
+            DocComment = 8,
+            QuadComment = 9,
+            MultiString = 10,
+            OpeningBracket = 11,
+            ClosingBracket = 12,
         }
 
         private int[] sourceType;
-        private bool[] sourceTypeValidState = Enumerable.Repeat(true, 512).ToArray();
-        // FIXME - this is a bit excessive
-        private string[] reportSourceState = Enumerable.Repeat("", 512).ToArray();
         private string fileNamePath;
         private int fileNr;
         private string[] sourceLines;
@@ -37,7 +36,6 @@ namespace CSharpSnippets.FixCs
 
         public FixCsSources3(string fileNamePath, int fileNr, bool showFixedLines = false)
         {
-            SetValidStates(sourceTypeValidState, reportSourceState);
             this.fileNamePath = fileNamePath;
             this.fileNr = fileNr;
             Debug.WriteLine($" {fileNr,9} Fixing C# source for {fileNamePath}");
@@ -49,19 +47,29 @@ namespace CSharpSnippets.FixCs
             {
                 for (int i = 0; i < sourceLines.Length; i++)
                 {
-                    Debug.WriteLine($"{sourceLines[i],-140} {reportSourceState[sourceType[i]]}");
+                    Debug.WriteLine($"{sourceLines[i],-140} {(SourceType) sourceType[i]}");
                 }
             }
 
-            MarkLinesWithSourceAnalysis(fileNamePath, DEFAULT_EOL_PREFERENCE, DEFAULT_BOM_PREFERENCE);
-
-
+            // MarkLinesWithSourceAnalysis(fileNamePath, DEFAULT_EOL_PREFERENCE, DEFAULT_BOM_PREFERENCE);
         }
 
         public enum SourceState
         {
             None, InsideBlockComment, InsideMultiString
         }
+
+
+
+
+        //private void MarkLinesForRemoval()
+        //{
+
+        //}
+
+
+
+
 
         private void AnalyseSourceFirstPass()
         {
@@ -73,6 +81,11 @@ namespace CSharpSnippets.FixCs
                     case SourceState.None:
 
                         int linetype = GetLineType(trimmedSource, i);
+
+
+
+
+
                         switch (linetype)
                         {
                             case BLANK_LINE:
@@ -142,7 +155,12 @@ namespace CSharpSnippets.FixCs
                             default:
                                 throw new Exception("should never happen");
                         }
+
+
+
                         break;
+
+
 
                     case SourceState.InsideBlockComment:
                         // -- could potentially cleanup these
