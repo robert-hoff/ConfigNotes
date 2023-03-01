@@ -8,21 +8,22 @@ namespace CSharpSnippets.FixCs
     {
         public enum SourceType
         {
-            Generic = 0,
-            Blank = 1,
-            CommentLine = 2,
-            CommentLineTrailing = 4,
-            CommentBlock = 8,
-            CommentBlockInlined = 16,
-            DocComment = 32,
-            QuadComment = 64,
-            MultiString = 128,
+            GenericUnassigned = 0,
+            GenericLine = 1,
+            BlankLine = 2,
+            CommentLine = 4,
+            CommentLineTrailing = 8,
+            CommentBlock = 16,
+            CommentBlockInlined = 32,
+            DocComment = 64,
+            QuadComment = 128,
+            MultiString = 256,
         }
 
-
         private int[] sourceType;
-        private bool[] sourceTypeValidState = Enumerable.Repeat(true, 256).ToArray();
-        private string[] reportSourceState = Enumerable.Repeat("", 256).ToArray();
+        private bool[] sourceTypeValidState = Enumerable.Repeat(true, 512).ToArray();
+        // FIXME - this is a bit excessive
+        private string[] reportSourceState = Enumerable.Repeat("", 512).ToArray();
         private string fileNamePath;
         private int fileNr;
         private string[] sourceLines;
@@ -55,11 +56,12 @@ namespace CSharpSnippets.FixCs
             knownTrailingComments[241] = true;
             knownTrailingComments[250] = true;
             knownTrailingComments[271] = true;
+            knownTrailingComments[279] = true;
 
             SetValidStates(sourceTypeValidState, reportSourceState);
             this.fileNamePath = fileNamePath;
             this.fileNr = fileNr;
-            Debug.WriteLine($"{fileNr,9} {fileNamePath}");
+            Debug.WriteLine($" {fileNr,9} Fixing C# source for {fileNamePath}");
             sourceLines = ReadFileAsStringArray(fileNamePath);
             sourceType = new int[sourceLines.Length];
             trimmedSource = GetTrimmedSource(sourceLines);
@@ -131,58 +133,82 @@ namespace CSharpSnippets.FixCs
             for (int i = 0; i < trimmedSource.Length; i++)
             {
                 // remove string literals if they are found to interfere
-                RemoveAnyProblematicStringLiterals(trimmedSource, i);
-
+                // RemoveAnyProblematicStringLiterals(trimmedSource, i);
                 switch (sourceState)
                 {
                     case SourceState.None:
-                        if (string.IsNullOrEmpty(trimmedSource[i]))
+
+                        int linetype = GetLineType(trimmedSource, i);
+                        switch (linetype)
                         {
-                            sourceType[i] |= (int) SourceType.Blank;
-                        }
-                        else if (trimmedSource[i].IndexOf("//") > -1)
-                        {
-                            // unambigously a single-line comment
-                            if (trimmedSource[i].IndexOf("//") == 0 || trimmedSource[i].IndexOf("#pragma") == 0)
-                            {
-                                // TODO differentiate between normal, doc and quad commments
+                            case BLANK_LINE:
+                                sourceType[i] |= (int) SourceType.BlankLine;
+                                break;
+
+                            case GENERIC_LINE:
+                                sourceType[i] |= (int) SourceType.GenericLine;
+                                break;
+
+                            case GENERIC_LINE_WARNING:
+                                sourceType[i] |= (int) SourceType.GenericLine;
+                                Debug.WriteLine($"fileNr = {fileNr,6} WARN reached end of method in GetLineType(..) i = {i + 1,10} file={fileNamePath}");
+                                break;
+
+                            case INLINE_COMMENT_LINE:
                                 sourceType[i] |= (int) SourceType.CommentLine;
-                            }
-                            else
-                            {
-                                if (!knownTrailingComments.ContainsKey(fileNr))
+                                // unambigously a single-line comment
+                                if (trimmedSource[i].IndexOf("//") == 0 || trimmedSource[i].IndexOf("#pragma") == 0)
                                 {
-                                    Debug.WriteLine($"fileNr = {fileNr,6} trailing commentZ found at line i = {i + 1,10} file={fileNamePath}");
-                                    Debug.WriteLine($"{trimmedSource[i]}");
+                                    // TODO differentiate between normal, doc and quad commments
+                                    sourceType[i] |= (int) SourceType.CommentLine;
                                 }
-                                sourceType[i] |= (int) SourceType.CommentLineTrailing;
-                            }
-                        }
-                        else if (trimmedSource[i].IndexOf("/*") > -1 && trimmedSource[i].IndexOf("*/") == -1)
-                        {
-                            // unambigously start of a block comment
-                            if (trimmedSource[i].IndexOf("/*") == 0)
-                            {
-                                sourceType[i] |= (int) SourceType.CommentBlock;
-                                sourceState = SourceState.InsideBlockComment;
-                            }
-                            else
-                            {
-                                Debug.WriteLine($"fileNr = {fileNr,6} non-isolated start of block comment found i = {i + 1,10} file={fileNamePath}");
-                            }
-                        }
-                        else if (MultilineDelimiterStart(trimmedSource[i]))
-                        {
-                            if (trimmedSource[i].IndexOf("//") > -1 && trimmedSource[i].IndexOf("//") < trimmedSource[i].IndexOf("@\""))
-                            {
-                                Debug.WriteLine($"fileNr = {fileNr,6} double slash found before multiline delimiter i = {i + 1,10} file={fileNamePath}");
-                            }
-                            if (trimmedSource[i].IndexOf("\"") > -1 && trimmedSource[i].IndexOf("\"") < trimmedSource[i].IndexOf("@\""))
-                            {
-                                Debug.WriteLine($"fileNr = {fileNr,6} single quote found before multiline delimiter i = {i + 1,10} file={fileNamePath}");
-                            }
-                            sourceState = SourceState.InsideMultiString;
-                            sourceType[i] |= (int) SourceType.MultiString;
+                                else
+                                {
+                                    //if (!knownTrailingComments.ContainsKey(fileNr))
+                                    //{
+                                    //    Debug.WriteLine($"fileNr = {fileNr,6} trailing comment at line i = {i + 1,10} file={fileNamePath}");
+                                    //    Debug.WriteLine($"{trimmedSource[i]}");
+                                    //}
+                                    sourceType[i] |= (int) SourceType.CommentLineTrailing;
+                                }
+                                break;
+
+                            case BLOCK_COMMENT_LINE:
+                                // unambigously start of a block comment
+                                if (trimmedSource[i].IndexOf("/*") == 0)
+                                {
+                                    sourceType[i] |= (int) SourceType.CommentBlock;
+                                    sourceState = SourceState.InsideBlockComment;
+                                }
+                                else
+                                {
+                                    Debug.WriteLine($"fileNr = {fileNr,6} non-isolated start of block comment found i = {i + 1,10} file={fileNamePath}");
+                                }
+                                break;
+
+                            case MULTILINE_CANDIDATE:
+                                if (MultilineDelimiterStart(trimmedSource[i]))
+                                {
+                                    if (trimmedSource[i].IndexOf("//") > -1 && trimmedSource[i].IndexOf("//") < trimmedSource[i].IndexOf("@\""))
+                                    {
+                                        Debug.WriteLine($"fileNr = {fileNr,6} double slash found before multiline delimiter i = {i + 1,10} file={fileNamePath}");
+                                    }
+                                    if (trimmedSource[i].IndexOf("\"") > -1 && trimmedSource[i].IndexOf("\"") < trimmedSource[i].IndexOf("@\""))
+                                    {
+                                        Debug.WriteLine($"fileNr = {fileNr,6} single quote found before multiline delimiter i = {i + 1,10} file={fileNamePath}");
+                                    }
+                                    sourceState = SourceState.InsideMultiString;
+                                    sourceType[i] |= (int) SourceType.MultiString;
+                                } else
+                                {
+                                    // Debug.WriteLine($"fileNr = {fileNr,6} multiline candidate found, but not a multiline i = {i + 1,10} file={fileNamePath}");
+                                    sourceType[i] |= (int) SourceType.GenericLine;
+                                }
+                                break;
+
+                            case FAILED_TO_PARSE:
+                                Debug.WriteLine($"fileNr = {fileNr,6} parse error, terminating at i = {i + 1,10} file={fileNamePath}");
+                                return;
                         }
                         break;
                     case SourceState.InsideBlockComment:
@@ -216,14 +242,100 @@ namespace CSharpSnippets.FixCs
             }
         }
 
+
+
+
+
+
+        private const int NOIND = -1;
+
+        private const int GENERIC_LINE = 1;
+        private const int GENERIC_LINE_WARNING = 2;
+        private const int BLANK_LINE = 3;
+        private const int INLINE_COMMENT_LINE = 4;
+        private const int BLOCK_COMMENT_LINE = 5;
+        private const int MULTILINE_CANDIDATE = 6;
+        private const int FAILED_TO_PARSE = 7;
+
         private static Regex matchStringLiterals = new Regex("\\\"(?:\\\\.|[^\\\\\"])*\\\"");
+
+        private static int GetLineType(string[] trimmedSources, int i)
+        {
+            if (string.IsNullOrEmpty(trimmedSources[i]))
+            {
+                return BLANK_LINE;
+            }
+            int multiLineStringPos = trimmedSources[i].IndexOf("@\"");
+            // matched double-slashes include uri strings, and strings in general
+            int inlineCommentPos = trimmedSources[i].IndexOf("//");
+            int blockCommentPos =
+                trimmedSources[i].IndexOf("/*") > NOIND && trimmedSources[i].IndexOf("*/") == NOIND ?
+                trimmedSources[i].IndexOf("/*") : NOIND;
+            if (multiLineStringPos == NOIND && inlineCommentPos == NOIND && blockCommentPos == NOIND)
+            {
+                return GENERIC_LINE;
+            }
+
+            // multi   inline   block
+            // -       -        *
+            // +       -        +     no instances found
+            // -       +        +     no instances found
+            // +       +        +     no instances found
+            if (blockCommentPos > NOIND && (multiLineStringPos > NOIND || inlineCommentPos > NOIND))
+            {
+                Debug.WriteLine($"Circumstance not implemented " +
+                    $"blockCommentPos > NOIND = {blockCommentPos > NOIND} " +
+                    $"multiLineStringPos > NOIND = {multiLineStringPos > NOIND} " +
+                    $"inlineCommentPos > NOIND = {inlineCommentPos > NOIND}");
+                return FAILED_TO_PARSE;
+            }
+
+            // multi   inline   block
+            // -       -        *
+            if (blockCommentPos > NOIND)
+            {
+                return BLOCK_COMMENT_LINE;
+            }
+
+            // multi   inline   block
+            // +       -        -
+            // +       +         -
+            if (multiLineStringPos > NOIND && (
+                inlineCommentPos == NOIND || inlineCommentPos > NOIND && multiLineStringPos < inlineCommentPos))
+            {
+                return MULTILINE_CANDIDATE;
+            }
+
+            int quotePos = trimmedSources[i].IndexOf("\"");
+            while (quotePos > NOIND && quotePos < inlineCommentPos)
+            {
+                trimmedSources[i] = Regex.Replace(trimmedSources[i], "{.*}", "");
+                trimmedSources[i] = matchStringLiterals.Replace(trimmedSources[i], "", 1);
+                quotePos = trimmedSources[i].IndexOf("\"");
+                inlineCommentPos = trimmedSources[i].IndexOf("//");
+                multiLineStringPos = trimmedSources[i].IndexOf("@\"");
+                if (multiLineStringPos > NOIND && (
+                    inlineCommentPos == NOIND || inlineCommentPos > NOIND && multiLineStringPos < inlineCommentPos))
+                {
+                    return MULTILINE_CANDIDATE;
+                }
+            }
+
+            if (inlineCommentPos > NOIND)
+            {
+                return INLINE_COMMENT_LINE;
+            }
+            if (multiLineStringPos == NOIND && inlineCommentPos == NOIND && blockCommentPos == NOIND)
+            {
+                return GENERIC_LINE;
+            }
+            return GENERIC_LINE_WARNING;
+        }
+
 
         private void RemoveAnyProblematicStringLiterals(string[] trimmedSource, int i)
         {
             string trimmerSourceString = trimmedSource[i];
-
-
-
             trimmedSource[i] = Regex.Replace(trimmedSource[i], "{.*}", "");
             while (trimmedSource[i].IndexOf("\"") > -1 && trimmedSource[i].IndexOf("\"") < trimmedSource[i].IndexOf("//"))
             {
@@ -269,17 +381,19 @@ namespace CSharpSnippets.FixCs
 
         private static void SetValidStates(bool[] validSourceStates, string[] reportSourceState)
         {
-            validSourceStates[(int) SourceType.Generic] = true;
-            validSourceStates[(int) SourceType.Blank] = true;
-            validSourceStates[(int) SourceType.CommentLine] = true;
-            validSourceStates[(int) SourceType.CommentLineTrailing] = true;
-            validSourceStates[(int) SourceType.CommentBlock] = true;
-            validSourceStates[(int) SourceType.CommentBlockInlined] = true;
-            validSourceStates[(int) SourceType.DocComment] = true;
-            validSourceStates[(int) SourceType.QuadComment] = true;
-            validSourceStates[(int) SourceType.MultiString] = true;
-            reportSourceState[(int) SourceType.Generic] = $"{SourceType.Generic}";
-            reportSourceState[(int) SourceType.Blank] = $"{SourceType.Blank}";
+            //validSourceStates[(int) SourceType.GenericUnassigned] = true;
+            //validSourceStates[(int) SourceType.BlankLine] = true;
+            //validSourceStates[(int) SourceType.CommentLine] = true;
+            //validSourceStates[(int) SourceType.CommentLineTrailing] = true;
+            //validSourceStates[(int) SourceType.CommentBlock] = true;
+            //validSourceStates[(int) SourceType.CommentBlockInlined] = true;
+            //validSourceStates[(int) SourceType.DocComment] = true;
+            //validSourceStates[(int) SourceType.QuadComment] = true;
+            //validSourceStates[(int) SourceType.MultiString] = true;
+
+            reportSourceState[(int) SourceType.GenericUnassigned] = $"{SourceType.GenericUnassigned}";
+            reportSourceState[(int) SourceType.GenericLine] = $"{SourceType.GenericLine}";
+            reportSourceState[(int) SourceType.BlankLine] = $"{SourceType.BlankLine}";
             reportSourceState[(int) SourceType.CommentLine] = $"{SourceType.CommentLine}";
             reportSourceState[(int) SourceType.CommentLineTrailing] = $"{SourceType.CommentLineTrailing}";
             reportSourceState[(int) SourceType.CommentBlock] = $"{SourceType.CommentBlock}";
