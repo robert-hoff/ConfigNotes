@@ -20,18 +20,21 @@ namespace CSharpSnippets.FixCs
 
         public static void Run()
         {
-            // Analysis2();
-            Analysis1();
+            Analysis2();
+            // Analysis1();
         }
 
         public static void Analysis2()
         {
-            int fileNr = 219; // Z:/github/roslyn/src/Tools\PrepareTests\MinimizeUtil.cs
+            // int fileNr = 219; // Z:/github/roslyn/src/Tools\PrepareTests\MinimizeUtil.cs
             // int fileNr = 5; // Z:/github/roslyn/src/Compilers\Shared\BuildServerConnection.cs
             // int fileNr = 106; // Z:/github/roslyn/src/Interactive\HostTest\InteractiveHostDesktopTests.cs
             // int fileNr = 15; // Z:/github/roslyn/src/Dependencies\CodeAnalysis.Debugging\CustomDebugInfoReader.cs
             // int fileNr = 50; // Z:/github/roslyn/src/Dependencies\Collections\SegmentedDictionary`2.cs
             // int fileNr = 271; // Z:/github/roslyn/src/Workspaces\MSBuildTest\VisualStudioMSBuildWorkspaceTests.cs
+            // int fileNr = 351; // Z:/github/roslyn/src/Compilers\Core\MSBuildTaskTests\CscTests.cs
+            // int fileNr = 353; // Z:/github/roslyn/src/Compilers\Core\MSBuildTaskTests\DotNetSdkTests.cs
+            int fileNr = 1162; // Z:/github/roslyn/src/EditorFeatures\CSharpTest\QuickInfo\SemanticQuickInfoSourceTests.cs
             string[] files = GetFileList(SOURCE_DIR);
             new FixCsSources3(files[fileNr], fileNr);
             // new FixCsSources3("Z:/github/roslyn/src/Dependencies\\Collections\\SegmentedDictionary`2.cs", 50);
@@ -44,7 +47,7 @@ namespace CSharpSnippets.FixCs
             for (int i = 350; i < files.Length; i++)
             {
                 new FixCsSources3(files[i], i);
-                if (i == 500)
+                if (i == 1700)
                 {
                     break;
                 }
