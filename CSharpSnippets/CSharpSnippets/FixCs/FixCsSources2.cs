@@ -62,8 +62,6 @@ namespace CSharpSnippets.FixCs
             // IdentifyBlankLinesLeadingBracket(sourceLines, extraneousBlankLines);
             // ApplyCleanup(fileNamePath, eolPreference, bomPreference);
 
-
-
             ShowSourceCodeAnalysis();
 
             //for (int i = 0; i < multistringLines.Length; i++)

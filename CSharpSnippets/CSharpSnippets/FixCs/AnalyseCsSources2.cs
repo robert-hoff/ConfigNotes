@@ -20,8 +20,8 @@ namespace CSharpSnippets.FixCs
 
         public static void Run()
         {
-            Analysis2();
-            // Analysis1();
+            // Analysis2();
+            Analysis1();
         }
 
         public static void Analysis2()
@@ -38,7 +38,7 @@ namespace CSharpSnippets.FixCs
             int fileNr = 8366; // Z:/github/roslyn/src/Compilers\CSharp\Test\Emit\CodeGen\CodeGenDynamicTests.cs
             // int fileNr = 7898; // Z:/github/roslyn/src/Compilers\CSharp\Test\Emit\CodeGen\CodeGenDynamicTests.cs
             string[] files = GetFileList(SOURCE_DIR);
-            new FixCsSources3(files[fileNr], fileNr, showFixedLines: true);
+            new FixCsSources3(files[fileNr], fileNr, showFixedLines: false);
             // new FixCsSources3("Z:/github/roslyn/src/Dependencies\\Collections\\SegmentedDictionary`2.cs", 50), showFixedLines: true;
             // new FixCsSources3("Z:\\github\\ConfigNotes\\CSharpSnippets\\CSharpSnippets\\FixCs\\AnalyseCsSources2.cs", 50, showFixedLines: true); // also needs fixing
             // new FixCsSources3("Z:\\github\\ConfigNotes\\CSharpSnippets\\CSharpSnippets\\Snippets\\NullableTypes.cs", 50, showFixedLines: true);
@@ -51,7 +51,7 @@ namespace CSharpSnippets.FixCs
             for (int i = 0; i < files.Length; i++)
             {
                 new FixCsSources3(files[i], i);
-                if (i == 16000)
+                if (i == 1)
                 {
                     break;
                 }

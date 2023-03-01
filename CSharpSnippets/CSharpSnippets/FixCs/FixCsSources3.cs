@@ -1,11 +1,17 @@
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using CSharpSnippets.FileIO;
 using CSharpSnippets.PrintMethods;
 
 namespace CSharpSnippets.FixCs
 {
     public class FixCsSources3
     {
+        // Roslyn preferences
+        private const int DEFAULT_DESIRED_BLANK_LINES_AT_EOF = 1;
+        private const int DEFAULT_EOL_PREFERENCE = FileWriter.WINDOWS_ENDINGS;
+        private const int DEFAULT_BOM_PREFERENCE = FileWriter.SAVE_UTF_FILE_WITH_BOM;
+
         public enum SourceType
         {
             GenericUnassigned = 0,
@@ -46,6 +52,10 @@ namespace CSharpSnippets.FixCs
                     Debug.WriteLine($"{sourceLines[i],-140} {reportSourceState[sourceType[i]]}");
                 }
             }
+
+            MarkLinesWithSourceAnalysis(fileNamePath, DEFAULT_EOL_PREFERENCE, DEFAULT_BOM_PREFERENCE);
+
+
         }
 
         public enum SourceState
@@ -83,7 +93,8 @@ namespace CSharpSnippets.FixCs
                                     else if (trimmedSource[i].IndexOf("///") > NOINDX)
                                     {
                                         sourceType[i] |= (int) SourceType.DocComment;
-                                    } else
+                                    }
+                                    else
                                     {
                                         sourceType[i] |= (int) SourceType.CommentLine;
                                     }
@@ -321,6 +332,20 @@ namespace CSharpSnippets.FixCs
         public static string[] ReadFileAsStringArray(string filenamepath)
         {
             return File.ReadAllLines($"{filenamepath}");
+        }
+
+
+
+
+        private void MarkLinesWithSourceAnalysis(string fileNamePath, int eolPreference, int bomPreference)
+        {
+            FileWriter fw = new FileWriter(fileNamePath, EOL: eolPreference, useBom: bomPreference);
+            for (int i = 0; i < sourceLines.Length; i++)
+            {
+                fw.WriteLine($"{sourceLines[i],-80}    // {(SourceType) sourceType[i]}");
+            }
+
+            FileWriter.CloseFileWriter(fw);
         }
     }
 }
