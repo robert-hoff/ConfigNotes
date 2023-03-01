@@ -12,43 +12,70 @@ namespace CSharpSnippets.FixCs
         private const int DEFAULT_EOL_PREFERENCE = FileWriter.WINDOWS_ENDINGS;
         private const int DEFAULT_BOM_PREFERENCE = FileWriter.SAVE_UTF_FILE_WITH_BOM;
 
-        public enum SourceType
-        {
-            GenericUnassigned,
-            GenericLine,
-            BlankLine,
-            CommentLine,
-            CommentLineTrailing,
-            CommentBlock,
-            CommentBlockInlined,
-            DocComment,
-            QuadComment,
-            MultiString,
-            OpeningBracket,
-            ClosingBracket,
-        }
+        private const int GENERIC_UNASSIGNED = 0;
+        private const int GEN_LINE = 1;
+        private const int BLANK_LINE = 2;
+        private const int OPENING_BRACKET = 4;
+        private const int CLOSING_BRACKET = 8;
+        private const int COMMENT_LINE = 16;
+        private const int COMMENT_TRAILING = 32;
+        private const int COMMENT_BLOCK = 64;
+        private const int COMMENT_BLOCK_INLINED = 128;
+        private const int DOC_COMMENT = 256;
+        private const int QUAD_COMMENT = 512;
+        private const int MULTISTRING = 1024;
 
-        private int[] sourceType;
+        //public enum SourceLineType
+        //{
+        //    GenericUnassigned = GENERIC_UNASSIGNED,
+        //    GenericLine = GEN_LINE,
+        //    BlankLine = BLANK_LINE,
+        //    OpeningBracket = OPENING_BRACKET,
+        //    ClosingBracket = CLOSING_BRACKET,
+        //    CommentLine = COMMENT_LINE,
+        //    CommentLineTrailing = COMMENT_TRAILING,
+        //    CommentBlock = COMMENT_BLOCK,
+        //    CommentBlockInlined = COMMENT_BLOCK_INLINED,
+        //    DocComment = DOC_COMMENT,
+        //    QuadComment = QUAD_COMMENT,
+        //    MultiString = MULTISTRING,
+        //}
+
+        private int[] sourceLineDescription;
         private string fileNamePath;
         private int fileNr;
         private string[] sourceLines;
         private string[] trimmedSource;
 
-        public FixCsSources3(string fileNamePath, int fileNr, bool showFixedLines = false)
+        private bool[] blankLinesForRemoval;
+        private int desiredBlankLinesAtEof;
+
+        public FixCsSources3(
+            string fileNamePath,
+            int fileNr = -1,
+            bool showSourceAnalysis = false,
+            bool writeFile = false,
+            int desiredBlankLinesAtEof = DEFAULT_DESIRED_BLANK_LINES_AT_EOF)
         {
             this.fileNamePath = fileNamePath;
             this.fileNr = fileNr;
-            Debug.WriteLine($" {fileNr,9} Fixing C# source for {fileNamePath}");
-            sourceLines = ReadFileAsStringArray(fileNamePath);
-            sourceType = new int[sourceLines.Length];
+            this.desiredBlankLinesAtEof = desiredBlankLinesAtEof;
+            // Debug.WriteLine($" {fileNr,9} Fixing C# source for {fileNamePath}");
+            sourceLines = ReadFileAsStringArray(fileNamePath, desiredBlankLinesAtEof);
+            sourceLineDescription = new int[sourceLines.Length];
             trimmedSource = GetTrimmedSource(sourceLines);
             AnalyseSourceFirstPass();
-            if (showFixedLines)
+            if (showSourceAnalysis) { ShowFixedLines(); }
+
+            blankLinesForRemoval = new bool[sourceLines.Length];
+            ApplyCleanup();
+
+            if (writeFile)
             {
-                for (int i = 0; i < sourceLines.Length; i++)
-                {
-                    Debug.WriteLine($"{sourceLines[i],-140} {(SourceType) sourceType[i]}");
-                }
+                WriteChangesToFile(fileNamePath, EOL: DEFAULT_EOL_PREFERENCE, useBom: DEFAULT_BOM_PREFERENCE);
+            } else
+            {
+                ShowChangesToFile();
             }
 
             // MarkLinesWithSourceAnalysis(fileNamePath, DEFAULT_EOL_PREFERENCE, DEFAULT_BOM_PREFERENCE);
@@ -59,13 +86,118 @@ namespace CSharpSnippets.FixCs
             None, InsideBlockComment, InsideMultiString
         }
 
+        private void ApplyCleanup()
+        {
+            IdentifyDoubleBlankLines();
+            IdentifyBlankLinesFollowingBracket();
+            IdentifyBlankLinesLeadingBracket();
+            SetDesiredEndOfFileBlankLines();
+        }
 
-        //private void MarkLinesForRemoval()
-        //{
-
-        //}
 
 
+        private void ShowChangesToFile()
+        {
+            for (int i = 0; i < sourceLines.Length; i++)
+            {
+                if (!blankLinesForRemoval[i])
+                {
+                    Debug.WriteLine($"{sourceLines[i]}");
+                }
+            }
+        }
+
+        private void WriteChangesToFile(string fileNamePath, int EOL, int useBom)
+        {
+            FileWriter fw = new FileWriter(fileNamePath, EOL: EOL, useBom: useBom);
+            for (int i = 0; i < sourceLines.Length; i++)
+            {
+                if (!blankLinesForRemoval[i])
+                {
+                    fw.WriteLine(sourceLines[i]);
+                }
+            }
+            FileWriter.CloseFileWriter(fw);
+        }
+
+
+        // removes double blanks (or multiple blank lines) and any leading
+        // blank lines at the beginning of the file.
+        public void IdentifyDoubleBlankLines()
+        {
+            for (int i = 1; i < sourceLines.Length - desiredBlankLinesAtEof; i++)
+            {
+                if (sourceLineDescription[i] == BLANK_LINE &&
+                    sourceLineDescription[i - 1] == SourceLineType.BlankLine)
+                {
+                    blankLinesForRemoval[i] = true;
+                }
+            }
+        }
+
+        /*
+         * Mark any blank lines following an opening bracket '{'
+         */
+        private void IdentifyBlankLinesFollowingBracket()
+        {
+            bool bracketEncountered = false;
+            for (int i = 0; i < sourceLines.Length; i++)
+            {
+                if (sourceLineDescription[i] == SourceLineType.OpeningBracket)
+                {
+                    bracketEncountered = true;
+                }
+                if (sourceLineDescription[i] != SourceLineType.BlankLine)
+                {
+                    bracketEncountered = false;
+                }
+                if (bracketEncountered && sourceLineDescription[i] == SourceLineType.BlankLine)
+                {
+                    blankLinesForRemoval[i] = true;
+                }
+            }
+        }
+
+        /*
+         * Mark any blank lines leading a closing bracket '}'
+         */
+        private void IdentifyBlankLinesLeadingBracket()
+        {
+            bool bracketEncountered = false;
+            for (int i = sourceLines.Length - 1; i >= 0; i--)
+            {
+                if (sourceLineDescription[i] == SourceLineType.ClosingBracket)
+                {
+                    bracketEncountered = true;
+                }
+                if (sourceLineDescription[i] != SourceLineType.BlankLine)
+                {
+                    bracketEncountered = false;
+                }
+                if (bracketEncountered && sourceLineDescription[i] == SourceLineType.BlankLine)
+                {
+                    blankLinesForRemoval[i] = true;
+                }
+            }
+        }
+
+        public void SetDesiredEndOfFileBlankLines()
+        {
+            for (int i = sourceLines.Length - desiredBlankLinesAtEof;
+                i >= 0 && sourceLineDescription[i] == SourceLineType.BlankLine;
+                i--)
+            {
+                blankLinesForRemoval[i] = true;
+            }
+        }
+
+        private void ShowFixedLines()
+        {
+            for (int i = 0; i < sourceLines.Length; i++)
+            {
+                Debug.WriteLine($"{sourceLines[i],-140} {(SourceLineType) sourceLineDescription[i]}");
+            }
+        }
 
 
         private void AnalyseSourceFirstPass()
@@ -79,41 +211,48 @@ namespace CSharpSnippets.FixCs
 
                         int linetype = GetLineType(trimmedSource, i);
 
-                        if (linetype == BLANK_LINE)
+                        if (linetype == BLANK_LINE_TYPE)
                         {
-                            sourceType[i] |= (int) SourceType.BlankLine;
+                            sourceLineDescription[i] = SourceLineType.BlankLine;
                         }
-                        else if (linetype == GENERIC_LINE)
+                        else if (linetype == GENERIC_LINE_TYPE)
                         {
-                            sourceType[i] |= (int) SourceType.GenericLine;
+                            sourceLineDescription[i] = trimmedSource[i] switch
+                            {
+                                "{" => SourceLineType.OpeningBracket,
+                                "}" => SourceLineType.ClosingBracket,
+                                _ => SourceLineType.GenericLine
+                            };
                         }
-                        else if (linetype == INLINE_COMMENT_LINE)
+                        else if (linetype == INLINE_COMMENT_TYPE)
                         {
                             if (trimmedSource[i].IndexOf("//") == 0 || trimmedSource[i].IndexOf("#pragma") == 0)
                             {
                                 if (trimmedSource[i].IndexOf("////") > NOINDX)
                                 {
-                                    sourceType[i] |= (int) SourceType.QuadComment;
+                                    sourceLineDescription[i] = SourceLineType.QuadComment;
                                 }
                                 else if (trimmedSource[i].IndexOf("///") > NOINDX)
                                 {
-                                    sourceType[i] |= (int) SourceType.DocComment;
+                                    sourceLineDescription[i] = SourceLineType.DocComment;
                                 }
                                 else
                                 {
-                                    sourceType[i] |= (int) SourceType.CommentLine;
+                                    sourceLineDescription[i] = SourceLineType.CommentLine;
+                                    if (trimmedSource[i][..trimmedSource[i].IndexOf("//")].Trim().Equals("{")) { sourceLineDescription[i] |= (int) OPENING_BRACKET }
+                                    if (trimmedSource[i][..trimmedSource[i].IndexOf("//")].Trim().Equals("}")) {  }
                                 }
                             }
                             else
                             {
-                                sourceType[i] |= (int) SourceType.CommentLineTrailing;
+                                sourceLineDescription[i] = SourceLineType.CommentLineTrailing;
                             }
                         }
                         else if (linetype == BLOCK_COMMENT_LINE)
                         {
                             if (trimmedSource[i].IndexOf("/*") == 0)
                             {
-                                sourceType[i] |= (int) SourceType.CommentBlock;
+                                sourceLineDescription[i] = SourceLineType.CommentBlock;
                                 sourceState = SourceState.InsideBlockComment;
                             }
                             else
@@ -121,7 +260,7 @@ namespace CSharpSnippets.FixCs
                                 Debug.WriteLine($"fileNr = {fileNr,6} non-isolated start of block comment found i = {i + 1,10} file={fileNamePath}");
                             }
                         }
-                        else if (linetype == MULTILINE_CANDIDATE)
+                        else if (linetype == MULTILINE_CANDIDATE_TYPE)
                         {
                             if (MultilineDelimiterStart(trimmedSource[i]))
                             {
@@ -134,12 +273,12 @@ namespace CSharpSnippets.FixCs
                                     Debug.WriteLine($"fileNr = {fileNr,6} single quote found before multiline delimiter i = {i + 1,10} file={fileNamePath}");
                                 }
                                 sourceState = SourceState.InsideMultiString;
-                                sourceType[i] |= (int) SourceType.MultiString;
+                                sourceLineDescription[i] = SourceLineType.MultiString;
                             }
                             else
                             {
                                 // Debug.WriteLine($"fileNr = {fileNr,6} multiline candidate found, but not a multiline i = {i + 1,10} file={fileNamePath}");
-                                sourceType[i] |= (int) SourceType.GenericLine;
+                                sourceLineDescription[i] = SourceLineType.GenericLine;
                             }
                         }
                         else
@@ -152,7 +291,7 @@ namespace CSharpSnippets.FixCs
                         // -- check for blank lines in block comments
                         //if (string.IsNullOrEmpty(trimmedSource[i])) {}
                         sourceState = SourceState.InsideBlockComment;
-                        sourceType[i] |= (int) SourceType.CommentBlock;
+                        sourceLineDescription[i] = SourceLineType.CommentBlock;
                         if (trimmedSource[i].LastIndexOf("*/") > -1)
                         {
                             sourceState = SourceState.None;
@@ -161,7 +300,7 @@ namespace CSharpSnippets.FixCs
 
                     case SourceState.InsideMultiString:
                         sourceState = SourceState.InsideMultiString;
-                        sourceType[i] |= (int) SourceType.MultiString;
+                        sourceLineDescription[i] = SourceLineType.MultiString;
                         if (MultilineDelimiterEnd(trimmedSource[i]))
                         {
                             // -- check for trailing comments
@@ -200,19 +339,18 @@ namespace CSharpSnippets.FixCs
 
 
         private const int NOINDX = -1;
-        private const int GENERIC_LINE = 1;
-        private const int GENERIC_LINE_WARNING = 2;
-        private const int BLANK_LINE = 3;
-        private const int INLINE_COMMENT_LINE = 4;
+        private const int GENERIC_LINE_TYPE = 1;
+        private const int BLANK_LINE_TYPE = 3;
+        private const int INLINE_COMMENT_TYPE = 4;
         private const int BLOCK_COMMENT_LINE = 5;
-        private const int MULTILINE_CANDIDATE = 6;
+        private const int MULTILINE_CANDIDATE_TYPE = 6;
         private static Regex matchStringLiterals = new Regex("\\\"(?:\\\\.|[^\\\\\"])*\\\"");
 
         private static int GetLineType(string[] trimmedSource, int i)
         {
             if (string.IsNullOrEmpty(trimmedSource[i]))
             {
-                return BLANK_LINE;
+                return BLANK_LINE_TYPE;
             }
             // matched comments include uri strings (and strings in general)
             int inlineCommentPos = trimmedSource[i].IndexOf("//");
@@ -234,15 +372,15 @@ namespace CSharpSnippets.FixCs
             }
             if (multiLineStringPos == NOINDX && inlineCommentPos == NOINDX && blockCommentPos == NOINDX)
             {
-                return GENERIC_LINE;
+                return GENERIC_LINE_TYPE;
             }
             if (inlineCommentPos > NOINDX && blockCommentPos > NOINDX && inlineCommentPos == blockCommentPos ||
                 inlineCommentPos > NOINDX && multiLineStringPos > NOINDX && inlineCommentPos == multiLineStringPos ||
                 blockCommentPos > NOINDX && multiLineStringPos > NOINDX && blockCommentPos == multiLineStringPos)
             { throw new Exception("Should never happen"); }
-            if (inlineCommentPos == leastNonZeroIndex) { return INLINE_COMMENT_LINE; }
+            if (inlineCommentPos == leastNonZeroIndex) { return INLINE_COMMENT_TYPE; }
             if (blockCommentPos == leastNonZeroIndex) { return BLOCK_COMMENT_LINE; }
-            if (multiLineStringPos == leastNonZeroIndex) { return MULTILINE_CANDIDATE; }
+            if (multiLineStringPos == leastNonZeroIndex) { return MULTILINE_CANDIDATE_TYPE; }
             throw new Exception("Should never happen");
         }
 
@@ -265,9 +403,16 @@ namespace CSharpSnippets.FixCs
             return trimmedSource;
         }
 
-        public static string[] ReadFileAsStringArray(string filenamepath)
+        public static string[] ReadFileAsStringArray(string filenamepath, int padSourceWithBlankLines = 0)
         {
-            return File.ReadAllLines($"{filenamepath}");
+            int lineCount = File.ReadLines(filenamepath).Count() + padSourceWithBlankLines;
+            string[] sourceLines = Enumerable.Repeat("", lineCount).ToArray();
+            int lineInd = 0;
+            foreach (string line in File.ReadAllLines($"{filenamepath}"))
+            {
+                sourceLines[lineInd++] = line;
+            }
+            return sourceLines;
         }
 
         private void MarkLinesWithSourceAnalysis(string fileNamePath, int eolPreference, int bomPreference)
@@ -275,7 +420,7 @@ namespace CSharpSnippets.FixCs
             FileWriter fw = new FileWriter(fileNamePath, EOL: eolPreference, useBom: bomPreference);
             for (int i = 0; i < sourceLines.Length; i++)
             {
-                fw.WriteLine($"{sourceLines[i],-80}    // {(SourceType) sourceType[i]}");
+                fw.WriteLine($"{sourceLines[i],-80}    // {(SourceLineType) sourceLineDescription[i]}");
             }
 
             FileWriter.CloseFileWriter(fw);

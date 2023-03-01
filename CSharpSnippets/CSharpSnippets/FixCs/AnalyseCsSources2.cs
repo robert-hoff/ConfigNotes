@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CSharpSnippets.PrintMethods;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace CSharpSnippets.FixCs
 {
@@ -44,8 +45,12 @@ namespace CSharpSnippets.FixCs
             // new FixCsSources3("Z:\\github\\ConfigNotes\\CSharpSnippets\\CSharpSnippets\\Snippets\\NullableTypes.cs", 50, showFixedLines: true);
 
 
-            // new FixCsSources3(files[fileNr], fileNr, showFixedLines: false);
-            new FixCsSources3(files[fileNr], fileNr, showFixedLines: true);
+
+            new FixCsSources3("Z:\\github\\roslyn\\src\\Compilers\\Test\\Core\\BaseCompilerFeatureRequiredTests.cs");
+
+
+            // new FixCsSources3(files[fileNr], fileNr, showFixedLines: true);
+            // new FixCsSources3(files[fileNr], fileNr, showSourceAnalysis: false, desiredBlankLinesAtEof: 1);
 
 
         }
@@ -57,7 +62,7 @@ namespace CSharpSnippets.FixCs
             for (int i = 0; i < files.Length; i++)
             {
                 new FixCsSources3(files[i], i);
-                if (i == 5000)
+                if (i == 1000)
                 {
                     break;
                 }

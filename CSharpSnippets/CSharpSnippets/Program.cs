@@ -1,4 +1,5 @@
 #pragma warning disable IDE0005 // Using directive is unnecessary.
+using System.Diagnostics;
 using CSharpSnippets.EditorConfigs;
 using CSharpSnippets.FixCs;
 using CSharpSnippets.FormElements;
@@ -39,6 +40,11 @@ namespace CSharpSnippets
             // GenericCSharp.Run();
             AnalyseCsSources2.Run();
             // PrintSourceTypeArray.Run();
+
+
+            // string dsf = "abc//";
+            // Debug.WriteLine($"{dsf[..dsf.IndexOf("//")]}");
+
         }
 
         public static void EditorConfigs()
