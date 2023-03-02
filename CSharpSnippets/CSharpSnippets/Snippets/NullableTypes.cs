@@ -20,7 +20,9 @@ namespace CSharpSnippets.Snippets
 
         public static void CompileAndVerifyIL(string s, string t, string u)
         {
-        }
+        } // comment
+
+
 
     }
 }

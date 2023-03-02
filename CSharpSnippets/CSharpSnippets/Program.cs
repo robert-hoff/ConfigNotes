@@ -1,5 +1,6 @@
 #pragma warning disable IDE0005 // Using directive is unnecessary.
 using System.Diagnostics;
+using System.Numerics;
 using CSharpSnippets.EditorConfigs;
 using CSharpSnippets.FixCs;
 using CSharpSnippets.FormElements;

@@ -21,8 +21,8 @@ namespace CSharpSnippets.FixCs
 
         public static void Run()
         {
-            Analysis2();
-            // Analysis1();
+            // Analysis2();
+            Analysis1();
         }
 
         public static void Analysis2()
@@ -33,8 +33,8 @@ namespace CSharpSnippets.FixCs
             // int fileNr = 15; // Z:/github/roslyn/src/Dependencies\CodeAnalysis.Debugging\CustomDebugInfoReader.cs
             // int fileNr = 50; // Z:/github/roslyn/src/Dependencies\Collections\SegmentedDictionary`2.cs
             // int fileNr = 271; // Z:/github/roslyn/src/Workspaces\MSBuildTest\VisualStudioMSBuildWorkspaceTests.cs
-            int fileNr = 273; // Z:/github/roslyn/src/Workspaces\MSBuildTest\VisualStudioMSBuildWorkspaceTests.cs
-            // int fileNr = 351; // Z:/github/roslyn/src/Compilers\Core\MSBuildTaskTests\CscTests.cs
+            // int fileNr = 273; // Z:/github/roslyn/src/Workspaces\MSBuildTest\VisualStudioMSBuildWorkspaceTests.cs
+            int fileNr = 351; // Z:/github/roslyn/src/Compilers\Core\MSBuildTaskTests\CscTests.cs
             // int fileNr = 353; // Z:/github/roslyn/src/Compilers\Core\MSBuildTaskTests\DotNetSdkTests.cs
             // int fileNr = 1162; // Z:/github/roslyn/src/EditorFeatures\CSharpTest\QuickInfo\SemanticQuickInfoSourceTests.cs
             // int fileNr = 8366; // Z:/github/roslyn/src/Compilers\CSharp\Test\Emit\CodeGen\CodeGenDynamicTests.cs
@@ -44,15 +44,14 @@ namespace CSharpSnippets.FixCs
             // new FixCsSources3("Z:\\github\\ConfigNotes\\CSharpSnippets\\CSharpSnippets\\FixCs\\AnalyseCsSources2.cs", 50, showFixedLines: true); // also needs fixing
             // new FixCsSources3("Z:\\github\\ConfigNotes\\CSharpSnippets\\CSharpSnippets\\Snippets\\NullableTypes.cs", 50, showFixedLines: true);
 
+            new FixCsSources3("Z:\\github\\ConfigNotes\\CSharpSnippets\\CSharpSnippets\\Snippets\\NullableTypes.cs",
+                showSourceAnalysis: false, writeFile: false, showFixedFile: true);
 
+            //new FixCsSources3("Z:\\github\\roslyn\\src\\Compilers\\Test\\Core\\BaseCompilerFeatureRequiredTests.cs",
+            //    showSourceAnalysis: false, showFixedFile: true);
 
-            new FixCsSources3("Z:\\github\\roslyn\\src\\Compilers\\Test\\Core\\BaseCompilerFeatureRequiredTests.cs");
-
-
-            // new FixCsSources3(files[fileNr], fileNr, showFixedLines: true);
+            // new FixCsSources3(files[fileNr], fileNr, showFixedFile: true);
             // new FixCsSources3(files[fileNr], fileNr, showSourceAnalysis: false, desiredBlankLinesAtEof: 1);
-
-
         }
 
 
@@ -61,8 +60,8 @@ namespace CSharpSnippets.FixCs
             string[] files = GetFileList(SOURCE_DIR);
             for (int i = 0; i < files.Length; i++)
             {
-                new FixCsSources3(files[i], i);
-                if (i == 1000)
+                new FixCsSources3(files[i], i, writeFile: true);
+                if (i == 100)
                 {
                     break;
                 }

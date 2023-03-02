@@ -79,6 +79,11 @@ namespace CSharpSnippets.Snippets
         {
             string testdata = ReadDataFromFile.ReadLineAsString("stringdatatest.txt", 22, removeTrailingComment: true);
             Debug.WriteLine($"{testdata}");
+
+
+            string mystr = "\"\\n";
+
+
         }
 
 
