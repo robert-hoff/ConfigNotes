@@ -29,6 +29,14 @@ namespace CSharpSnippets.PrintMethods
             }
         }
 
+        public static void ShowStringList(List<string> stringList)
+        {
+            for (int i = 0; i < stringList.Count; i++)
+            {
+                Debug.WriteLine($"{stringList[i]}");
+            }
+        }
+
 
         //public static void ShowFile(string fileNamePath)
         //{

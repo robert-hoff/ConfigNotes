@@ -117,7 +117,7 @@ namespace CSharpSnippets.FixCs
             this.fileNamePath = fileNamePath;
             this.fileNr = fileNr;
             this.desiredBlankLinesAtEof = desiredBlankLinesAtEof;
-            // Debug.WriteLine($" {fileNr,9} Fixing C# source for {fileNamePath}");
+            Debug.WriteLine($" {fileNr,9} Fixing C# source for {fileNamePath}");
             sourceLines = ReadFileAsStringArray(fileNamePath, desiredBlankLinesAtEof);
             sourceLineDescription = new int[sourceLines.Length];
             trimmedSource = GetTrimmedSource(sourceLines);
@@ -144,25 +144,34 @@ namespace CSharpSnippets.FixCs
             // MarkLinesWithSourceAnalysis(fileNamePath, DEFAULT_EOL_PREFERENCE, DEFAULT_BOM_PREFERENCE);
         }
 
-
-        private void ShowReport()
+        public List<string> GetReport()
         {
+            List<string> report = new();
             for (int i = 0; i < sourceLines.Length - desiredBlankLinesAtEof; i++)
             {
                 int trimmedLength = sourceLines[i].TrimEnd().Length;
                 int unalteredLength = sourceLines[i].Length;
                 if (removeBlankLineOfType[i] > 0)
                 {
-                    // Debug.WriteLine($"{sourceLines[i],-140} {GetReportLabel(sourceLineDescription[i])}");
-                    Debug.WriteLine($"{fileNamePath[20..],-80} line {i,-6} remove blank line {blankLineLabel[removeBlankLineOfType[i]]}");
-                } else if (trimmedLength < unalteredLength)
+                    report.Add($"{fileNamePath[20..],-80} line {i,-6} remove blank line {blankLineLabel[removeBlankLineOfType[i]]}");
+                }
+                else if (trimmedLength < unalteredLength)
                 {
                     int spaceCount = unalteredLength - trimmedLength;
-                    Debug.WriteLine($"{fileNamePath[20..],-80} line {i,-6} trim {spaceCount,-3} trailing spaces for {GetReportLabel(sourceLineDescription[i])}");
+                    report.Add($"{fileNamePath[20..],-80} line {i,-6} trim {spaceCount} trailing spaces for {GetReportLabel(sourceLineDescription[i])}");
                 }
             }
+            return report;
         }
 
+
+        private void ShowReport()
+        {
+            foreach (string line in GetReport())
+            {
+                Debug.WriteLine($"{line}");
+            }
+        }
 
         public enum SourceState
         {

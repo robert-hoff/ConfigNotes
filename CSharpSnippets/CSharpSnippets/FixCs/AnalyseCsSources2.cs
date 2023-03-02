@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CSharpSnippets.FileIO;
 using CSharpSnippets.PrintMethods;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -21,8 +22,9 @@ namespace CSharpSnippets.FixCs
 
         public static void Run()
         {
-            Analysis2();
+            // Analysis2();
             // Analysis1();
+            FullReport();
         }
 
         public static void Analysis2()
@@ -67,6 +69,39 @@ namespace CSharpSnippets.FixCs
                 }
             }
         }
+
+        public static void FullReport()
+        {
+            List<string> fullReport = new();
+
+            string[] files = GetFileList(SOURCE_DIR);
+            for (int i = 0; i < files.Length; i++)
+            {
+                FixCsSources3 fixCs = new(files[i], i, writeFile: false);
+                fullReport.AddRange(fixCs.GetReport());
+                if (i == 20000)
+                {
+                    break;
+                }
+            }
+
+            // GeneralFormatData.ShowStringList(fullReport);
+            SaveFullReport(fullReport);
+
+        }
+
+        public static void SaveFullReport(List<string> fullReport)
+        {
+            Debug.WriteLine($"SAVING REPORT");
+            FileWriter fw = new(@"Z:\github\ConfigNotes\CSharpSnippets\data-output\report.txt");
+            foreach (string line in fullReport)
+            {
+                fw.WriteLine(line);
+            }
+            FileWriter.CloseFileWriter(fw);
+            Debug.WriteLine($"DONE");
+        }
+
 
         public static string[] GetFileList(string path)
         {
