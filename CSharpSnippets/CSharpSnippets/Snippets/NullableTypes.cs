@@ -26,4 +26,3 @@ namespace CSharpSnippets.Snippets
 
     }
 }
-

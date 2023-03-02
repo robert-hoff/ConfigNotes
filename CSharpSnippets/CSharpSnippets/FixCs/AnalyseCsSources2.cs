@@ -21,8 +21,8 @@ namespace CSharpSnippets.FixCs
 
         public static void Run()
         {
-            // Analysis2();
-            Analysis1();
+            Analysis2();
+            // Analysis1();
         }
 
         public static void Analysis2()
@@ -44,11 +44,11 @@ namespace CSharpSnippets.FixCs
             // new FixCsSources3("Z:\\github\\ConfigNotes\\CSharpSnippets\\CSharpSnippets\\FixCs\\AnalyseCsSources2.cs", 50, showFixedLines: true); // also needs fixing
             // new FixCsSources3("Z:\\github\\ConfigNotes\\CSharpSnippets\\CSharpSnippets\\Snippets\\NullableTypes.cs", 50, showFixedLines: true);
 
-            new FixCsSources3("Z:\\github\\ConfigNotes\\CSharpSnippets\\CSharpSnippets\\Snippets\\NullableTypes.cs",
-                showSourceAnalysis: false, writeFile: false, showFixedFile: true);
+            //new FixCsSources3("Z:\\github\\ConfigNotes\\CSharpSnippets\\CSharpSnippets\\Snippets\\NullableTypes.cs",
+            //    showSourceAnalysis: false, writeFile: false, showFixedFile: true);
 
-            //new FixCsSources3("Z:\\github\\roslyn\\src\\Compilers\\Test\\Core\\BaseCompilerFeatureRequiredTests.cs",
-            //    showSourceAnalysis: false, showFixedFile: true);
+            new FixCsSources3("Z:\\github\\roslyn\\src\\Compilers\\Test\\Core\\BaseCompilerFeatureRequiredTests.cs",
+                showSourceAnalysis: false, writeFile: false, showFixedFile: false, showReport: true);
 
             // new FixCsSources3(files[fileNr], fileNr, showFixedFile: true);
             // new FixCsSources3(files[fileNr], fileNr, showSourceAnalysis: false, desiredBlankLinesAtEof: 1);
@@ -61,7 +61,7 @@ namespace CSharpSnippets.FixCs
             for (int i = 0; i < files.Length; i++)
             {
                 new FixCsSources3(files[i], i, writeFile: true);
-                if (i == 100)
+                if (i == 500)
                 {
                     break;
                 }
