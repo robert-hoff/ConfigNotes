@@ -2,13 +2,13 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using CSharpSnippets.FileIO;
 
-namespace CSharpSnippets.Snippets
+namespace CSharpSnippets.FixCs.RoslynFixer
 {
     public static class CheckMultilineDelimiter
     {
         public static void Run()
         {
-            string myStr3 = ReadDataFromFile.ReadLineAsString("stringdatatest.txt", lineNumber: 0, removeTrailingComment: true);
+            var myStr3 = ReadDataFromFile.ReadLineAsString("stringdatatest.txt", lineNumber: 0, removeTrailingComment: true);
             Debug.WriteLine($"{myStr3}");
             Debug.WriteLine($"{MultilineDelimiterStart(myStr3)}");
         }
@@ -19,7 +19,7 @@ namespace CSharpSnippets.Snippets
          */
         public static bool MultilineDelimiterStart(string line)
         {
-            string lineWoComment = RemoveTrailingComment(line);
+            var lineWoComment = RemoveTrailingComment(line);
             return lineWoComment.IndexOf("@\"") > -1 &&
                 !Regex.IsMatch(lineWoComment[(lineWoComment.IndexOf("@\"") + 2)..], "^\\\"[^\\\"]|[^\\\"]\\\"[^\\\"]");
         }
@@ -41,7 +41,7 @@ namespace CSharpSnippets.Snippets
 
         public static void MultiLineStringExample()
         {
-            string multi = @" @ "" "";
+            var multi = @" @ "" "";
                      ""
                      ";
             Debug.WriteLine($"{multi}");
