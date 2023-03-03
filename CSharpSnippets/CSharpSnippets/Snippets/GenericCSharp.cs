@@ -29,7 +29,6 @@ namespace CSharpSnippets.Snippets
             Debug.WriteLine($"{listToSort[0].Name}");
         }
 
-
         class Product
         {
             public string Name { get; private set; }

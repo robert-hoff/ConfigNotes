@@ -38,7 +38,6 @@ namespace CSharpSnippets.FixCs.RoslynFixer
             return line.IndexOf("//") > -1 ? line[..line.IndexOf("//")] : line;
         }
 
-
         public static void MultiLineStringExample()
         {
             var multi = @" @ "" "";

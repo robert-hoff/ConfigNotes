@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace CSharpSnippets.PrintMethods
 {
-    public class GeneralFormatData
+    public class PrintCommonTypes
     {
-
         public static void ShowBoolArray(bool[] boolArray)
         {
             string boolStr = "";
@@ -19,7 +18,6 @@ namespace CSharpSnippets.PrintMethods
             }
             Debug.WriteLine($"{boolStr.Trim()}");
         }
-
 
         public static void ShowStringArray(string[] stringArray)
         {
@@ -36,7 +34,6 @@ namespace CSharpSnippets.PrintMethods
                 Debug.WriteLine($"{stringList[i]}");
             }
         }
-
 
         //public static void ShowFile(string fileNamePath)
         //{

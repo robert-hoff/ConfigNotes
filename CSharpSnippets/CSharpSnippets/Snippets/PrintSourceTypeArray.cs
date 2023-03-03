@@ -41,11 +41,7 @@ namespace CSharpSnippets.Snippets
                 string SourceStr = PrintSourceTypes(boolArray(i));
                 Debug.WriteLine($"{i,3}    {SourceStr}");
             }
-
-
-
         }
-
 
         public static string PrintSourceTypes(bool[] myBools)
         {
@@ -60,7 +56,6 @@ namespace CSharpSnippets.Snippets
             if (myBools[7]) { types += $"{(SourceType)(64),-40} "; }
             return types.Trim();
         }
-
 
         public static bool[] boolArray(int i)
         {

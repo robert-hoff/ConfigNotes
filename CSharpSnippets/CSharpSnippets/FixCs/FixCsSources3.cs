@@ -83,7 +83,6 @@ namespace CSharpSnippets.FixCs
             return trimSourceType[bitPosition];
         }
 
-
         private bool CheckSourceTypeMatch(int sourceDescription, int sourceType)
         {
             return (sourceDescription & sourceType) > 0;
@@ -163,7 +162,6 @@ namespace CSharpSnippets.FixCs
             }
             return report;
         }
-
 
         private void ShowReport()
         {
@@ -424,7 +422,6 @@ namespace CSharpSnippets.FixCs
                 (reduced.IndexOf("\"") == reduced.Length - 1 || reduced[reduced.IndexOf("\"") + 1] != '"');
         }
 
-
         private const int NOINDX = -1;
         private const int GENERIC_LINE_TYPE = 1;
         private const int BLANK_LINE_TYPE = 3;
@@ -518,9 +515,6 @@ namespace CSharpSnippets.FixCs
             }
             return blankLinesAtEof;
         }
-
-
-
 
         private void MarkLinesWithSourceAnalysis(string fileNamePath, int eolPreference, int bomPreference)
         {

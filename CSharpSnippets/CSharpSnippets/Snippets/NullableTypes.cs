@@ -12,17 +12,13 @@ namespace CSharpSnippets.Snippets
                     .
                     ");
 
-
             string hello = null;
             Debug.WriteLine($"{ hello}");
         }
 
-
         public static void CompileAndVerifyIL(string s, string t, string u)
         {
         } // comment
-
-
-
     }
 }
+

@@ -15,10 +15,10 @@ namespace CSharpSnippets
         private static void Main()
         {
             // FormSnippets();
-            CSharpSnippets();
+            // CSharpSnippets();
             // EditorConfigs();
             // CopyOverConfigs();
-            // FixSelf();
+            FixSelf();
         }
 
         public static void FormSnippets()
@@ -37,15 +37,12 @@ namespace CSharpSnippets
             // FixCsSources.Run();
             // FixCsSources2.CleanupRoslynSources();
             // RegexReplacements.Run();
-            AnalyseCsSources.Run();
             // GenericCSharp.Run();
             // AnalyseCsSources2.Run();
             // PrintSourceTypeArray.Run();
 
-
             // string dsf = "abc//";
             // Debug.WriteLine($"{dsf[..dsf.IndexOf("//")]}");
-
         }
 
         public static void EditorConfigs()

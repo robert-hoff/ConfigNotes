@@ -10,7 +10,6 @@ namespace CSharpSnippets.Snippets
              */
             string notMultline1 = @"  //  "" "" ";
 
-
             /* hello comment */ string multiline1 = @"  //  ""
                     1
                     "" """"
@@ -24,7 +23,6 @@ namespace CSharpSnippets.Snippets
 
                     "; string sdsdf = "";
 
-
             string multiline3 = @"
 Block[B0] - Entry
     Statements (0)
@@ -33,9 +31,9 @@ Block[B1] - Block
     Predecessors: [B0]
     Statements (1)
         ISimpleAssignmentOperation (OperationKind.SimpleAssignment, Type: System.Int32, IsImplicit) (Syntax: '= 0')
-          Left: 
+          Left:
             IParameterReferenceOperation: p (OperationKind.ParameterReference, Type: System.Int32, IsImplicit) (Syntax: '= 0')
-          Right: 
+          Right:
             ILiteralOperation (OperationKind.Literal, Type: System.Int32, Constant: 0) (Syntax: '0')
 
     Next (Regular) Block[B2]
@@ -44,11 +42,9 @@ Block[B2] - Exit
     Statements (0)"
            ;
 
-
         //";
 
         // ;
-
 
         /*
 
@@ -56,10 +52,7 @@ Block[B2] - Exit
                 1
                 ";
 
-
          */
-
-
 
         double a = 3;
             double b = 4;
@@ -69,13 +62,11 @@ Block[B2] - Exit
             Console.WriteLine($"Length {($"h\"ello".PadRight(20)) /* " " " " " */}"); /// comment with " "" " and other crap in it
             Console.WriteLine($"Length  /*    */ ");
 
-
             /*
             Console.WriteLine($"Area of the /* right triangle with legs of ");     */
 
             /*
             Console.WriteLine($"Area of the { right triangle with legs of ");   }  */
-
 
             /*
              *
@@ -95,18 +86,12 @@ Block[B2] - Exit
              *
              */
 
-
-
             Debug.WriteLine($"/*   */");
-
-
 
             string urlstring = "https://github.com/robert-hoff";
             string weirdUrlstring = " //github.com/robert-hoff";
 
             string somestring = "\"";
-
-
 
             /* */
 
@@ -124,8 +109,6 @@ Block[B2] - Exit
                      "" // hello ""
                      "; // hello
 
-
-
             string multiline5 = @"
 
                     /*
@@ -137,14 +120,10 @@ Block[B2] - Exit
             file.cs
             """"""U8";
 
-
             string helloz = (@"
                 file.cs
                 ""
                 " + "\"\"\"");
-
-
-
 
             // /*
 
@@ -168,7 +147,6 @@ Block[B2] - Exit
              *
              /* */ // sdfsdf
 
-
             /*
              *
              *   /*  */
@@ -178,8 +156,6 @@ Block[B2] - Exit
             *
             *
             */
-
-
 
             string hello = null;
             Debug.WriteLine($"{hello}");

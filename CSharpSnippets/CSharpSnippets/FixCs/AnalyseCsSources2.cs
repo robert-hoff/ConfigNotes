@@ -12,13 +12,10 @@ namespace CSharpSnippets.FixCs
 {
     public class AnalyseCsSources2
     {
-
         private const string SOURCE_DIR = @"Z:/github/roslyn/src/";
         // private const string TEST_FILE = @"Z:/github/roslyn/src/Analyzers/Core/Analyzers/AbstractBuiltInCodeStyleDiagnosticAnalyzer.cs";
         // private const string TEST_FILE = @"Z:\github\roslyn\src\Analyzers\CSharp\Tests\MakeMethodAsynchronous\MakeMethodAsynchronousTests.cs";
         private const string TEST_FILE = @"Z:\github\ConfigNotes\CSharpSnippets\CSharpSnippets\Snippets\FixCsSourcesTestCase1.cs";
-
-
 
         public static void Run()
         {
@@ -56,7 +53,6 @@ namespace CSharpSnippets.FixCs
             // new FixCsSources3(files[fileNr], fileNr, showSourceAnalysis: false, desiredBlankLinesAtEof: 1);
         }
 
-
         public static void Analysis1()
         {
             string[] files = GetFileList(SOURCE_DIR);
@@ -87,7 +83,6 @@ namespace CSharpSnippets.FixCs
 
             // GeneralFormatData.ShowStringList(fullReport);
             SaveFullReport(fullReport);
-
         }
 
         public static void SaveFullReport(List<string> fullReport)
@@ -101,7 +96,6 @@ namespace CSharpSnippets.FixCs
             FileWriter.CloseFileWriter(fw);
             Debug.WriteLine($"DONE");
         }
-
 
         public static string[] GetFileList(string path)
         {

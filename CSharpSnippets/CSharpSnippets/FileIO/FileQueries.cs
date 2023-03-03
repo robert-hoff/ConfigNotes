@@ -25,7 +25,6 @@ namespace CSharpSnippets.FileIO
             }
         }
 
-
         public static List<string> GetCsFilesWalkDirectory(string path, string fileextension)
         {
             return Directory.GetFileSystemEntries(path, $"*.{fileextension}", SearchOption.AllDirectories).ToList();
