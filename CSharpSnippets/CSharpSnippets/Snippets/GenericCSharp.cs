@@ -37,6 +37,16 @@ namespace CSharpSnippets.Snippets
                 this.Name = Name;
             }
         }
+
+        /*
+         * Just checks if I'm allowed to use the null type
+         *
+         */
+        public static void InstantiateNullType()
+        {
+            string hello = null;
+            Debug.WriteLine($"{hello}");
+        }
     }
 }
 

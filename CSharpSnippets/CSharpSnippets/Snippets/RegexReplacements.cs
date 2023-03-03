@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using CSharpSnippets.FileIO;
 
 namespace CSharpSnippets.Snippets
@@ -13,15 +8,14 @@ namespace CSharpSnippets.Snippets
     {
         public static void Run()
         {
-            // TestMultilineDelimiterStart();
-            TestMultilineDelimiterEnd();
+            TestMultilineDelimiterStart();
+            // TestMultilineDelimiterEnd();
+            // MultilineTestcases();
             // SingleTestMultilineDelimiter();
-            // RegexReplacement6();
-            // RegexReplacement5();
-            // RegexReplacement4();
-            // RegexReplacement3();
-            // RegexReplacement2();
-            // RegexReplacement1();
+            // RegexExample4();
+            // RegexExample3();
+            // RegexExample2();
+            // RegexExample1();
         }
 
         /*
@@ -50,65 +44,44 @@ namespace CSharpSnippets.Snippets
             }
         }
 
-        // [Fact(Skip = "https://github.com/dotnet/roslyn/issues/46414")] CommentLineTrailing
+        public static void MultilineTestcases()
+        {
+            int[] lineNumbers = { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 };
+            foreach (int ln in lineNumbers)
+            {
+                int ind = ln - 1;
+                string testdata = ReadDataFromFile.ReadLineAsString("roslyn-testcases.txt", ind);
+                string reduce1 = Regex.Replace(testdata, "{.*}", "").Replace("\"\"", "");
+                string reduce2 = matchStringLiterals.Replace(reduce1, "", 1);
+                string reduce3 = matchStringLiterals.Replace(reduce2, "", 1);
+                Debug.WriteLine($"Testing on: {testdata,-100} Reduced to: {reduce3}");
+            }
+        }
 
         public static void SingleTestMultilineDelimiter()
         {
             string testdata = ReadDataFromFile.ReadLineAsString("roslyn-testcases.txt", 23, removeTrailingComment: true);
-            // Debug.WriteLine($"{testdata,-100} {MultilineDelimiterStart(testdata)}");
             Debug.WriteLine($"{testdata,-100} {MultilineDelimiterEnd(testdata)}");
-            // Debug.WriteLine($"{testdata,-100} {MultilineDelimiterEndOldOld(testdata)}");
         }
 
-        // using regex \"(?:\\.|[^\\"])*\"
-        // -- there are failing cases
-        // "\"\"\""
-        private static Regex matchStringLiterals = new Regex("\\\"(?:\\\\.|[^\\\\\"])*\\\"");
-        // this was derived as an alternative \"(\\.|[^\"])*\"
-        // private static Regex matchStringLiterals = new Regex("\\\"(\\\\.|[^\\\"])*\\\"");
-
-        public static void RegexReplacement6()
+        public static void RegexExample4()
         {
             string testdata = ReadDataFromFile.ReadLineAsString("roslyn-testcases.txt", 22, removeTrailingComment: true);
             Debug.WriteLine($"{testdata}");
-
             string mystr = "\"\\n";
         }
 
-        public static void RegexReplacement5()
-        {
-            // string testdata = ReadDataFromFile.ReadLineAsString("roslyn-testcases.txt", 9);
-            // string testdata = ReadDataFromFile.ReadLineAsString("roslyn-testcases.txt", 10);
-            // string testdata = ReadDataFromFile.ReadLineAsString("roslyn-testcases.txt", 11);
-            // string testdata = ReadDataFromFile.ReadLineAsString("roslyn-testcases.txt", 12);
-            // string testdata = ReadDataFromFile.ReadLineAsString("roslyn-testcases.txt", 13);
-            // string testdata = ReadDataFromFile.ReadLineAsString("roslyn-testcases.txt", 14);
-            // string testdata = ReadDataFromFile.ReadLineAsString("roslyn-testcases.txt", 16);
-            // string testdata = ReadDataFromFile.ReadLineAsString("roslyn-testcases.txt", 17);
-            string testdata = ReadDataFromFile.ReadLineAsString("roslyn-testcases.txt", 18);
-            // Debug.WriteLine($"{testdata}");
-
-            Debug.WriteLine($"{testdata}");
-
-            string reduce = Regex.Replace(testdata, "{.*}", "").Replace("\"\"", "");
-            string result1 = matchStringLiterals.Replace(reduce, "", 1);
-            string result2 = matchStringLiterals.Replace(result1, "", 1);
-        }
-
-        public static void RegexReplacement3()
+        public static void RegexExample3()
         {
             string testdata = ReadDataFromFile.ReadLineAsString("roslyn-testcases.txt", 9);
-
-            // Console.WriteLine($"Length {($"h\"ello".PadRight(20)) /* " " " " " */}"); /// comment with " "" " and other crap in it
-            // Debug.WriteLine($"{testdata}");
             testdata = Regex.Replace(testdata, "{.*}", "");
             Debug.WriteLine($"{testdata}");
         }
 
         /*
-         * replace only first occurance
+         * replace only first occurrence
          */
-        public static void RegexReplacement2()
+        public static void RegexExample2()
         {
             string testdata = "abc\"def\"ghijklmnopq\"rst\"uvwxyz";
             Regex stringReplace = new Regex("\".*?\"");
@@ -116,7 +89,7 @@ namespace CSharpSnippets.Snippets
             Debug.WriteLine($"{testdata}");
         }
 
-        public static void RegexReplacement1()
+        public static void RegexExample1()
         {
             string testdata = "ab{cd}efg";
             testdata = Regex.Replace(testdata, "{.*}", "");
@@ -124,9 +97,23 @@ namespace CSharpSnippets.Snippets
         }
 
         /*
-         * C# code is a multi-line string delimeter (start) if it has a single " after removing double ""
+         * regex for matching string literals
+         * using regex
+         *
+         *      \"(?:\\.|[^\\"])*\"
+         *
+         * this seems to be an alternative
+         *
+         *      \"(\\.|[^\"])*\"
+         *
+         * possibly this is a failing testcase for the regular expressions
+         *
+         *      "\"\"\""
          *
          */
+        public static readonly Regex matchStringLiterals = new Regex("\\\"(?:\\\\.|[^\\\\\"])*\\\"");
+
+        // C# code is a multi-line string delimeter (start) if it has a single " after removing double ""
         public static bool MultilineDelimiterStart(string line)
         {
             if (line.IndexOf("@\"") > -1)

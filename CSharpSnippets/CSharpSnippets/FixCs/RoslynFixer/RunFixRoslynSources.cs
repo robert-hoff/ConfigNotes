@@ -8,9 +8,9 @@ using CSharpSnippets.FileIO;
 using CSharpSnippets.PrintMethods;
 using static System.Net.Mime.MediaTypeNames;
 
-namespace CSharpSnippets.FixCs
+namespace CSharpSnippets.FixCs.RoslynFixer
 {
-    public class AnalyseCsSources2
+    public class RunFixRoslynSources
     {
         private const string SOURCE_DIR = @"Z:/github/roslyn/src/";
         // private const string TEST_FILE = @"Z:/github/roslyn/src/Analyzers/Core/Analyzers/AbstractBuiltInCodeStyleDiagnosticAnalyzer.cs";
@@ -33,12 +33,12 @@ namespace CSharpSnippets.FixCs
             // int fileNr = 50; // Z:/github/roslyn/src/Dependencies\Collections\SegmentedDictionary`2.cs
             // int fileNr = 271; // Z:/github/roslyn/src/Workspaces\MSBuildTest\VisualStudioMSBuildWorkspaceTests.cs
             // int fileNr = 273; // Z:/github/roslyn/src/Workspaces\MSBuildTest\VisualStudioMSBuildWorkspaceTests.cs
-            int fileNr = 351; // Z:/github/roslyn/src/Compilers\Core\MSBuildTaskTests\CscTests.cs
+            var fileNr = 351; // Z:/github/roslyn/src/Compilers\Core\MSBuildTaskTests\CscTests.cs
             // int fileNr = 353; // Z:/github/roslyn/src/Compilers\Core\MSBuildTaskTests\DotNetSdkTests.cs
             // int fileNr = 1162; // Z:/github/roslyn/src/EditorFeatures\CSharpTest\QuickInfo\SemanticQuickInfoSourceTests.cs
             // int fileNr = 8366; // Z:/github/roslyn/src/Compilers\CSharp\Test\Emit\CodeGen\CodeGenDynamicTests.cs
             // int fileNr = 7898; // Z:/github/roslyn/src/Compilers\CSharp\Test\Emit\CodeGen\CodeGenDynamicTests.cs
-            string[] files = GetFileList(SOURCE_DIR);
+            var files = GetFileList(SOURCE_DIR);
             // new FixCsSources3("Z:/github/roslyn/src/Dependencies\\Collections\\SegmentedDictionary`2.cs", 50), showFixedLines: true;
             // new FixCsSources3("Z:\\github\\ConfigNotes\\CSharpSnippets\\CSharpSnippets\\FixCs\\AnalyseCsSources2.cs", 50, showFixedLines: true); // also needs fixing
             // new FixCsSources3("Z:\\github\\ConfigNotes\\CSharpSnippets\\CSharpSnippets\\Snippets\\NullableTypes.cs", 50, showFixedLines: true);
@@ -46,7 +46,7 @@ namespace CSharpSnippets.FixCs
             //new FixCsSources3("Z:\\github\\ConfigNotes\\CSharpSnippets\\CSharpSnippets\\Snippets\\NullableTypes.cs",
             //    showSourceAnalysis: false, writeFile: false, showFixedFile: true);
 
-            new FixCsSources3("Z:\\github\\roslyn\\src\\Compilers\\Test\\Core\\BaseCompilerFeatureRequiredTests.cs",
+            new FixRoslynSources("Z:\\github\\roslyn\\src\\Compilers\\Test\\Core\\BaseCompilerFeatureRequiredTests.cs",
                 showSourceAnalysis: false, writeFile: false, showFixedFile: false, showReport: true);
 
             // new FixCsSources3(files[fileNr], fileNr, showFixedFile: true);
@@ -55,10 +55,10 @@ namespace CSharpSnippets.FixCs
 
         public static void Analysis1()
         {
-            string[] files = GetFileList(SOURCE_DIR);
-            for (int i = 0; i < files.Length; i++)
+            var files = GetFileList(SOURCE_DIR);
+            for (var i = 0; i < files.Length; i++)
             {
-                new FixCsSources3(files[i], i, writeFile: true);
+                new FixRoslynSources(files[i], i, writeFile: true);
                 if (i == 500)
                 {
                     break;
@@ -70,10 +70,10 @@ namespace CSharpSnippets.FixCs
         {
             List<string> fullReport = new();
 
-            string[] files = GetFileList(SOURCE_DIR);
-            for (int i = 0; i < files.Length; i++)
+            var files = GetFileList(SOURCE_DIR);
+            for (var i = 0; i < files.Length; i++)
             {
-                FixCsSources3 fixCs = new(files[i], i, writeFile: false);
+                FixRoslynSources fixCs = new(files[i], i, writeFile: false);
                 fullReport.AddRange(fixCs.GetReport());
                 if (i == 20000)
                 {
@@ -89,7 +89,7 @@ namespace CSharpSnippets.FixCs
         {
             Debug.WriteLine($"SAVING REPORT");
             FileWriter fw = new(@"Z:\github\ConfigNotes\CSharpSnippets\data-output\report.txt");
-            foreach (string line in fullReport)
+            foreach (var line in fullReport)
             {
                 fw.WriteLine(line);
             }

@@ -22,7 +22,7 @@ namespace CSharpSnippets.FixCs
 
         public static void FixAllFiles()
         {
-            foreach (string filenamepath in GetCsFilesWalkDirectory(SOURCE_DIR))
+            foreach (string filenamepath in FileQueries.GetCsFilesWalkDirectory(SOURCE_DIR, "cs"))
             {
                 FixStylesForFile(filenamepath);
             }
@@ -36,7 +36,7 @@ namespace CSharpSnippets.FixCs
         public static void FixSelf()
         {
             string sourceDir = "../../../";
-            foreach (string filenamepath in GetCsFilesWalkDirectory(sourceDir))
+            foreach (string filenamepath in FileQueries.GetCsFilesWalkDirectory(sourceDir, "cs"))
             {
                 FixStylesForFile(filenamepath);
             }
@@ -66,7 +66,7 @@ namespace CSharpSnippets.FixCs
 
         public static List<string> GetModifiedSourceLines(string filenamepath)
         {
-            List<string> sourceLines = ReadFileAsStringList(filenamepath);
+            List<string> sourceLines = FileQueries.ReadFileAsStringList(filenamepath);
             sourceLines = RemoveDoubleBlankLines(sourceLines);
             sourceLines = RemoveBlankLinesFollowingBracket(sourceLines);
             sourceLines = RemoveBlankLinesLeadingBracket(sourceLines);
@@ -203,43 +203,6 @@ namespace CSharpSnippets.FixCs
                 modifiedLines.Add(modifiedLine);
             }
             return modifiedLines;
-        }
-
-        public static string[] ReadFileAsStringArray(string filenamepath)
-        {
-            return File.ReadAllLines($"{filenamepath}");
-        }
-
-        public static List<string> ReadFileAsStringList(string filenamepath)
-        {
-            return File.ReadAllLines($"{filenamepath}").ToList();
-        }
-
-        //public static List<string> ReadFileAsStringList(string filenamepath, bool omitEmptyLines = false)
-        //{
-        //    List<string> data = new();
-        //    string[] lines = File.ReadAllLines($"{filenamepath}");
-        //    foreach (string line in lines)
-        //    {
-        //        if (!omitEmptyLines || !string.IsNullOrEmpty(line.Trim()))
-        //        {
-        //            data.Add(line);
-        //        }
-        //    }
-        //    return data;
-        //}
-
-        public static void ShowCsFilesWalkDirectory()
-        {
-            foreach (string file in GetCsFilesWalkDirectory(SOURCE_DIR))
-            {
-                Debug.WriteLine($"{file}");
-            }
-        }
-
-        public static string[] GetCsFilesWalkDirectory(string path)
-        {
-            return Directory.GetFileSystemEntries(path, "*.cs", SearchOption.AllDirectories);
         }
     }
 }

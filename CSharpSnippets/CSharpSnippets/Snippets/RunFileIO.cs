@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using CSharpSnippets.FileIO;
 
-namespace CSharpSnippets.Testruns
+namespace CSharpSnippets.Snippets
 {
-    public static class TestFileIO
+    public static class RunFileIO
     {
         private const string DEFAULT_OUTPUT_DIR = "../../../../data-output";
 
@@ -19,7 +19,7 @@ namespace CSharpSnippets.Testruns
 
         public static void TestSaveIntDataToFile()
         {
-            string filename = "myintdata.txt";
+            var filename = "myintdata.txt";
             List<int> myIntData = new()
             {
                 1, 2, 3
@@ -29,8 +29,8 @@ namespace CSharpSnippets.Testruns
 
         public static void TestFileWrite2()
         {
-            string outputFilenamepath = $"{DEFAULT_OUTPUT_DIR}/hellofile.html";
-            FileWriter fw = new FileWriter(
+            var outputFilenamepath = $"{DEFAULT_OUTPUT_DIR}/hellofile.html";
+            var fw = new FileWriter(
                 outputFilenamepath,
                 showOutputToConsole: false,
                 EOL: FileWriter.LINUX_ENDINGS,
@@ -46,8 +46,8 @@ namespace CSharpSnippets.Testruns
 
         public static void TestFileWrite1()
         {
-            string outputFilenamepath = $"{DEFAULT_OUTPUT_DIR}/hellofile.txt";
-            FileWriter fw = new FileWriter(
+            var outputFilenamepath = $"{DEFAULT_OUTPUT_DIR}/hellofile.txt";
+            var fw = new FileWriter(
                 outputFilenamepath,
                 showOutputToConsole: false,
                 EOL: FileWriter.LINUX_ENDINGS,
@@ -62,8 +62,8 @@ namespace CSharpSnippets.Testruns
 
         public static void TestFileReadStringData()
         {
-            List<string> stringData = ReadDataFromFile.ReadSingleColumnStringData("stringdata.txt");
-            foreach (string stringVal in stringData)
+            var stringData = ReadDataFromFile.ReadSingleColumnStringData("stringdata.txt");
+            foreach (var stringVal in stringData)
             {
                 Debug.WriteLine($"{stringVal}");
             }
@@ -71,8 +71,8 @@ namespace CSharpSnippets.Testruns
 
         public static void TestFileReadIntData()
         {
-            List<int> intData = ReadDataFromFile.ReadSingleColumnIntData("intdata.txt");
-            foreach (int intVal in intData)
+            var intData = ReadDataFromFile.ReadSingleColumnIntData("intdata.txt");
+            foreach (var intVal in intData)
             {
                 Debug.WriteLine($"{intVal}");
             }
@@ -81,7 +81,7 @@ namespace CSharpSnippets.Testruns
         // the default parser is tolerant to surrounding whitespace
         public static void TestParsing()
         {
-            int myInt = int.Parse("  9   ");
+            var myInt = int.Parse("  9   ");
             Debug.WriteLine($"{myInt}");
         }
     }

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CSharpSnippets.FileIO;
 
 namespace CSharpSnippets.PrintMethods
 {
@@ -35,14 +36,14 @@ namespace CSharpSnippets.PrintMethods
             }
         }
 
-        //public static void ShowFile(string fileNamePath)
-        //{
-        //    string[] sourceLines = ReadFileAsStringArray(fileNamePath);
-        //    foreach (string line in sourceLines)
-        //    {
-        //        Debug.WriteLine($"{line}");
-        //    }
-        //}
+        public static void ShowFile(string fileNamePath)
+        {
+            string[] sourceLines = FileQueries.ReadFileAsStringArray(fileNamePath);
+            foreach (string line in sourceLines)
+            {
+                Debug.WriteLine($"{line}");
+            }
+        }
     }
 }
 

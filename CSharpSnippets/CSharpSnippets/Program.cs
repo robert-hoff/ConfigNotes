@@ -5,7 +5,6 @@ using CSharpSnippets.EditorConfigs;
 using CSharpSnippets.FixCs;
 using CSharpSnippets.FormElements;
 using CSharpSnippets.Snippets;
-using CSharpSnippets.Testruns;
 
 namespace CSharpSnippets
 {
@@ -15,10 +14,10 @@ namespace CSharpSnippets
         private static void Main()
         {
             // FormSnippets();
-            // CSharpSnippets();
+            CSharpSnippets();
             // EditorConfigs();
             // CopyOverConfigs();
-            FixSelf();
+            // FixSelf();
         }
 
         public static void FormSnippets()
@@ -36,13 +35,10 @@ namespace CSharpSnippets
             // TestFileIO.Run();
             // FixCsSources.Run();
             // FixCsSources2.CleanupRoslynSources();
-            // RegexReplacements.Run();
+            RegexReplacements.Run();
             // GenericCSharp.Run();
             // AnalyseCsSources2.Run();
             // PrintSourceTypeArray.Run();
-
-            // string dsf = "abc//";
-            // Debug.WriteLine($"{dsf[..dsf.IndexOf("//")]}");
         }
 
         public static void EditorConfigs()

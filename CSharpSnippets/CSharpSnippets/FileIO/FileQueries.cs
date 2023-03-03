@@ -25,9 +25,27 @@ namespace CSharpSnippets.FileIO
             }
         }
 
-        public static List<string> GetCsFilesWalkDirectory(string path, string fileextension)
+        public static void ShowCsFilesWalkDirectory(string path, string fileExtension)
         {
-            return Directory.GetFileSystemEntries(path, $"*.{fileextension}", SearchOption.AllDirectories).ToList();
+            foreach (string file in GetCsFilesWalkDirectory(path, fileExtension))
+            {
+                Debug.WriteLine($"{file}");
+            }
+        }
+
+        public static List<string> GetCsFilesWalkDirectory(string path, string fileExtension)
+        {
+            return Directory.GetFileSystemEntries(path, $"*.{fileExtension}", SearchOption.AllDirectories).ToList();
+        }
+
+        public static string[] ReadFileAsStringArray(string filenamepath)
+        {
+            return File.ReadAllLines($"{filenamepath}");
+        }
+
+        public static List<string> ReadFileAsStringList(string filenamepath)
+        {
+            return File.ReadAllLines($"{filenamepath}").ToList();
         }
     }
 }

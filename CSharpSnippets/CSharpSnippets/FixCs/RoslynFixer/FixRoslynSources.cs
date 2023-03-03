@@ -5,9 +5,9 @@ using CSharpSnippets.FileIO;
 using CSharpSnippets.PrintMethods;
 using static System.Windows.Forms.LinkLabel;
 
-namespace CSharpSnippets.FixCs
+namespace CSharpSnippets.FixCs.RoslynFixer
 {
-    public class FixCsSources3
+    public class FixRoslynSources
     {
         // Roslyn preferences
         private const int DEFAULT_DESIRED_BLANK_LINES_AT_EOF = 0;
@@ -61,13 +61,13 @@ namespace CSharpSnippets.FixCs
 
         private string GetSourceTypeDescription(int sourceType)
         {
-            int bitPosition = BitOperations.Log2((uint) sourceType & ~(uint) (sourceType - 1)) + 1;
+            var bitPosition = BitOperations.Log2((uint) sourceType & ~(uint) (sourceType - 1)) + 1;
             return sourceTypeLabels[bitPosition];
         }
 
         private string GetReportLabel(int sourceType)
         {
-            int bitPosition = BitOperations.Log2((uint) sourceType & ~(uint) (sourceType - 1)) + 1;
+            var bitPosition = BitOperations.Log2((uint) sourceType & ~(uint) (sourceType - 1)) + 1;
             return reportLabels[bitPosition];
         }
 
@@ -79,7 +79,7 @@ namespace CSharpSnippets.FixCs
 
         private bool TrimEndOfLineForSourceType(int sourceType)
         {
-            int bitPosition = BitOperations.Log2((uint) sourceType & ~(uint) (sourceType - 1)) + 1;
+            var bitPosition = BitOperations.Log2((uint) sourceType & ~(uint) (sourceType - 1)) + 1;
             return trimSourceType[bitPosition];
         }
 
@@ -104,7 +104,7 @@ namespace CSharpSnippets.FixCs
         // private bool[] blankLinesForRemoval;
         private int desiredBlankLinesAtEof;
 
-        public FixCsSources3(
+        public FixRoslynSources(
             string fileNamePath,
             int fileNr = -1,
             bool showSourceAnalysis = false,
@@ -146,17 +146,17 @@ namespace CSharpSnippets.FixCs
         public List<string> GetReport()
         {
             List<string> report = new();
-            for (int i = 0; i < sourceLines.Length - desiredBlankLinesAtEof; i++)
+            for (var i = 0; i < sourceLines.Length - desiredBlankLinesAtEof; i++)
             {
-                int trimmedLength = sourceLines[i].TrimEnd().Length;
-                int unalteredLength = sourceLines[i].Length;
+                var trimmedLength = sourceLines[i].TrimEnd().Length;
+                var unalteredLength = sourceLines[i].Length;
                 if (removeBlankLineOfType[i] > 0)
                 {
                     report.Add($"{fileNamePath[20..],-80} line {i,-6} remove blank line {blankLineLabel[removeBlankLineOfType[i]]}");
                 }
                 else if (trimmedLength < unalteredLength)
                 {
-                    int spaceCount = unalteredLength - trimmedLength;
+                    var spaceCount = unalteredLength - trimmedLength;
                     report.Add($"{fileNamePath[20..],-80} line {i,-6} trim {spaceCount} trailing spaces for {GetReportLabel(sourceLineDescription[i])}");
                 }
             }
@@ -165,7 +165,7 @@ namespace CSharpSnippets.FixCs
 
         private void ShowReport()
         {
-            foreach (string line in GetReport())
+            foreach (var line in GetReport())
             {
                 Debug.WriteLine($"{line}");
             }
@@ -186,13 +186,13 @@ namespace CSharpSnippets.FixCs
 
         private void WriteChangesToFile(string fileNamePath, int EOL, int useBom)
         {
-            FileWriter fw = new FileWriter(fileNamePath, EOL: EOL, useBom: useBom);
-            for (int i = 0; i < sourceLines.Length; i++)
+            var fw = new FileWriter(fileNamePath, EOL: EOL, useBom: useBom);
+            for (var i = 0; i < sourceLines.Length; i++)
             {
                 // if (!blankLinesForRemoval[i])
                 if (removeBlankLineOfType[i] > 0)
                 {
-                    bool trimEndOfLine = TrimEndOfLineForSourceType(sourceLineDescription[i]);
+                    var trimEndOfLine = TrimEndOfLineForSourceType(sourceLineDescription[i]);
                     if (trimEndOfLine)
                     {
                         fw.WriteLine(sourceLines[i].TrimEnd());
@@ -210,7 +210,7 @@ namespace CSharpSnippets.FixCs
         // blank lines at the beginning of the file.
         public void IdentifyDoubleBlankLines()
         {
-            for (int i = 1; i < sourceLines.Length - desiredBlankLinesAtEof; i++)
+            for (var i = 1; i < sourceLines.Length - desiredBlankLinesAtEof; i++)
             {
                 if (CheckSourceTypeMatch(sourceLineDescription[i], BLANK_LINE) &&
                     CheckSourceTypeMatch(sourceLineDescription[i - 1], BLANK_LINE))
@@ -226,8 +226,8 @@ namespace CSharpSnippets.FixCs
          */
         private void IdentifyBlankLinesFollowingBracket()
         {
-            bool bracketEncountered = false;
-            for (int i = 0; i < sourceLines.Length; i++)
+            var bracketEncountered = false;
+            for (var i = 0; i < sourceLines.Length; i++)
             {
                 if (CheckSourceTypeMatch(sourceLineDescription[i], OPENING_BRACKET))
                 {
@@ -239,7 +239,7 @@ namespace CSharpSnippets.FixCs
                     bracketEncountered = false;
                 }
 
-                int asfds = 0;
+                var asfds = 0;
                 if (bracketEncountered && CheckSourceTypeMatch(sourceLineDescription[i], BLANK_LINE))
                 {
                     // blankLinesForRemoval[i] = true;
@@ -253,8 +253,8 @@ namespace CSharpSnippets.FixCs
          */
         private void IdentifyBlankLinesLeadingBracket()
         {
-            bool bracketEncountered = false;
-            for (int i = sourceLines.Length - 1; i >= 0; i--)
+            var bracketEncountered = false;
+            for (var i = sourceLines.Length - 1; i >= 0; i--)
             {
                 if (CheckSourceTypeMatch(sourceLineDescription[i], CLOSING_BRACKET))
                 {
@@ -276,7 +276,7 @@ namespace CSharpSnippets.FixCs
         public void SetDesiredEndOfFileBlankLines()
         {
             if (desiredBlankLinesAtEof <= 0) { return; }
-            for (int i = sourceLines.Length - desiredBlankLinesAtEof;
+            for (var i = sourceLines.Length - desiredBlankLinesAtEof;
                 i >= 0 && CheckSourceTypeMatch(sourceLineDescription[i], BLANK_LINE);
                 i--)
             {
@@ -287,14 +287,14 @@ namespace CSharpSnippets.FixCs
 
         private void AnalyseSourceFirstPass()
         {
-            SourceState sourceState = SourceState.None;
-            for (int i = 0; i < trimmedSource.Length; i++)
+            var sourceState = SourceState.None;
+            for (var i = 0; i < trimmedSource.Length; i++)
             {
                 switch (sourceState)
                 {
                     case SourceState.None:
 
-                        int linetype = GetLineType(trimmedSource, i);
+                        var linetype = GetLineType(trimmedSource, i);
 
                         if (linetype == BLANK_LINE_TYPE)
                         {
@@ -405,7 +405,7 @@ namespace CSharpSnippets.FixCs
         {
             if (line.IndexOf("@\"") > -1)
             {
-                string reduced = line.Replace("{.*}", "").Replace("\"\"", "");
+                var reduced = line.Replace("{.*}", "").Replace("\"\"", "");
                 return reduced.IndexOf("\"") != -1 && reduced.LastIndexOf("\"") == reduced.IndexOf("\"");
             }
             else
@@ -417,7 +417,7 @@ namespace CSharpSnippets.FixCs
         // code is a multi-line string delimeter (end)if it has a single " after all double ""
         public static bool MultilineDelimiterEnd(string line)
         {
-            string reduced = Regex.Replace(line, "{.*}", "").Replace("\"\"", "");
+            var reduced = Regex.Replace(line, "{.*}", "").Replace("\"\"", "");
             return reduced.IndexOf("\"") != -1 &&
                 (reduced.IndexOf("\"") == reduced.Length - 1 || reduced[reduced.IndexOf("\"") + 1] != '"');
         }
@@ -437,13 +437,13 @@ namespace CSharpSnippets.FixCs
                 return BLANK_LINE_TYPE;
             }
             // matched comments include uri strings (and strings in general)
-            int inlineCommentPos = trimmedSource[i].IndexOf("//");
-            int blockCommentPos =
+            var inlineCommentPos = trimmedSource[i].IndexOf("//");
+            var blockCommentPos =
                 trimmedSource[i].IndexOf("/*") > NOINDX && trimmedSource[i].IndexOf("*/") == NOINDX ?
                 trimmedSource[i].IndexOf("/*") : NOINDX;
-            int multiLineStringPos = trimmedSource[i].IndexOf("@\"");
-            int quotePos = trimmedSource[i].IndexOf("\"");
-            int leastNonZeroIndex = LeastNonZero(inlineCommentPos, blockCommentPos, multiLineStringPos);
+            var multiLineStringPos = trimmedSource[i].IndexOf("@\"");
+            var quotePos = trimmedSource[i].IndexOf("\"");
+            var leastNonZeroIndex = LeastNonZero(inlineCommentPos, blockCommentPos, multiLineStringPos);
             while (quotePos > NOINDX && leastNonZeroIndex > 0 && quotePos < leastNonZeroIndex)
             {
                 trimmedSource[i] = Regex.Replace(trimmedSource[i], "{.*}", "");
@@ -479,8 +479,8 @@ namespace CSharpSnippets.FixCs
 
         public static string[] GetTrimmedSource(string[] sourceLines)
         {
-            string[] trimmedSource = new string[sourceLines.Length];
-            for (int i = 0; i < sourceLines.Length; i++)
+            var trimmedSource = new string[sourceLines.Length];
+            for (var i = 0; i < sourceLines.Length; i++)
             {
                 trimmedSource[i] = sourceLines[i].Trim();
             }
@@ -489,10 +489,10 @@ namespace CSharpSnippets.FixCs
 
         public static string[] ReadFileAsStringArray(string filenamepath, int padSourceWithBlankLines = 0)
         {
-            int lineCount = File.ReadLines(filenamepath).Count() + padSourceWithBlankLines;
-            string[] sourceLines = Enumerable.Repeat("", lineCount).ToArray();
-            int lineInd = 0;
-            foreach (string line in File.ReadAllLines($"{filenamepath}"))
+            var lineCount = File.ReadLines(filenamepath).Count() + padSourceWithBlankLines;
+            var sourceLines = Enumerable.Repeat("", lineCount).ToArray();
+            var lineInd = 0;
+            foreach (var line in File.ReadAllLines($"{filenamepath}"))
             {
                 sourceLines[lineInd++] = line;
             }
@@ -507,10 +507,11 @@ namespace CSharpSnippets.FixCs
             {
                 return 1;
             }
-            int blankLinesAtEof = 1;
+            var blankLinesAtEof = 1;
             while (string.IsNullOrWhiteSpace(lines[lines.Count - blankLinesAtEof].Trim()) &&
                    blankLinesAtEof < lines.Count
-                ) {
+                )
+            {
                 blankLinesAtEof++;
             }
             return blankLinesAtEof;
@@ -518,8 +519,8 @@ namespace CSharpSnippets.FixCs
 
         private void MarkLinesWithSourceAnalysis(string fileNamePath, int eolPreference, int bomPreference)
         {
-            FileWriter fw = new FileWriter(fileNamePath, EOL: eolPreference, useBom: bomPreference);
-            for (int i = 0; i < sourceLines.Length; i++)
+            var fw = new FileWriter(fileNamePath, EOL: eolPreference, useBom: bomPreference);
+            for (var i = 0; i < sourceLines.Length; i++)
             {
                 fw.WriteLine($"{sourceLines[i],-80}    // {GetSourceTypeDescription(sourceLineDescription[i])}");
             }
@@ -528,7 +529,7 @@ namespace CSharpSnippets.FixCs
 
         private void ShowSourceAnalysis()
         {
-            for (int i = 0; i < sourceLines.Length; i++)
+            for (var i = 0; i < sourceLines.Length; i++)
             {
                 Debug.WriteLine($"{sourceLines[i],-140} {GetSourceTypeDescription(sourceLineDescription[i])}");
                 // Debug.WriteLine($"{sourceLines[i],-140} {sourceLineDescription[i]}");
@@ -537,7 +538,7 @@ namespace CSharpSnippets.FixCs
 
         private void ShowFixedFile()
         {
-            for (int i = 0; i < sourceLines.Length; i++)
+            for (var i = 0; i < sourceLines.Length; i++)
             {
                 // if (!blankLinesForRemoval[i])
                 if (removeBlankLineOfType[i] > 0)
