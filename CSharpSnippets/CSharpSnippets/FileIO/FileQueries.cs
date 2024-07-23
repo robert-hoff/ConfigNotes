@@ -2,12 +2,11 @@ using System.Diagnostics;
 
 namespace CSharpSnippets.FileIO
 {
-    public class FileQueries
+    public static class FileQueries
     {
         /*
-         * file-count   size(bytes)    filenamepath
-         * ----------   -----------    ------------
-         *
+         * shows for each file
+         * file-count, size(bytes), filenamepath
          */
         public static void ShowFileSizesForFiles(List<string> fileNamePaths)
         {
@@ -15,7 +14,7 @@ namespace CSharpSnippets.FileIO
             foreach (string file in fileNamePaths)
             {
                 FileInfo info = new FileInfo(file);
-                filesAndSizes.Add($"{info.Length,8:#######0}         {file}");
+                filesAndSizes.Add($"{info.Length,8:#######0} {file}");
             }
             filesAndSizes.Sort();
             filesAndSizes.Reverse();

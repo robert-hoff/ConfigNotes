@@ -1,8 +1,9 @@
-#pragma warning disable IDE0005 // Using directive is unnecessary.
+﻿#pragma warning disable IDE0005 // Using directive is unnecessary.
 using System.Diagnostics;
 using System.Numerics;
 using CSharpSnippets.EditorConfigs;
 using CSharpSnippets.FixCs;
+using CSharpSnippets.FixCs.RoslynFixer;
 using CSharpSnippets.FormElements;
 using CSharpSnippets.Snippets;
 
@@ -33,9 +34,9 @@ namespace CSharpSnippets
             // CheckMultilineDelimiter.Run();
             // NullableTypes.Run();
             // TestFileIO.Run();
-            // FixCsSources.Run();
+            FixCsSources.Run();
             // FixCsSources2.CleanupRoslynSources();
-            RegexReplacements.Run();
+            // RoslynRegexReplacements.Run();
             // GenericCSharp.Run();
             // AnalyseCsSources2.Run();
             // PrintSourceTypeArray.Run();

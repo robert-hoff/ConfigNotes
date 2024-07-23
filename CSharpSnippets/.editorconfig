@@ -23,7 +23,7 @@ dotnet_diagnostic.CA1000.severity = none
 # CA1001: Types that own disposable fields should be disposable	A class declares and implements an instance field that is a System ...
 dotnet_diagnostic.CA1001.severity = suggestion
 # CA1002: Do not expose generic lists
-dotnet_diagnostic.CA1002.severity = suggestion
+dotnet_diagnostic.CA1002.severity = none
 # CA1003: Use generic event handler instances
 dotnet_diagnostic.CA1003.severity = suggestion
 # CA1005: Avoid excessive parameters on generic types	The more type parameters a generic type contains, the more difficult it is t ...
@@ -409,7 +409,7 @@ dotnet_diagnostic.CA2247.severity = warning
 # CA2248:
 dotnet_diagnostic.CA2248.severity = suggestion
 # CA2249:
-dotnet_diagnostic.CA2249.severity = suggestion
+dotnet_diagnostic.CA2249.severity = none
 # CA2250:
 dotnet_diagnostic.CA2250.severity = suggestion
 # CA2251:
@@ -509,8 +509,8 @@ dotnet_diagnostic.IDE0005.severity = warning
 dotnet_diagnostic.IDE0007.severity = none
 dotnet_diagnostic.IDE0008.severity = warning
 csharp_style_var_for_built_in_types = true
-csharp_style_var_when_type_is_apparent = true
-csharp_style_var_elsewhere = true
+csharp_style_var_when_type_is_apparent = false
+csharp_style_var_elsewhere = false
 
 # IDE0010:
 dotnet_diagnostic.IDE0010.severity = none

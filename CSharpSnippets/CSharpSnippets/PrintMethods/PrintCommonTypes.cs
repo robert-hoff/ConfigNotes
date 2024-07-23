@@ -1,14 +1,9 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CSharpSnippets.FileIO;
 
 namespace CSharpSnippets.PrintMethods
 {
-    public class PrintCommonTypes
+    public static class PrintCommonTypes
     {
         public static void ShowBoolArray(bool[] boolArray)
         {

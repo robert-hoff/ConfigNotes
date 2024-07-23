@@ -2,9 +2,8 @@ using System.Diagnostics;
 using System.Numerics;
 using System.Text.RegularExpressions;
 using CSharpSnippets.FileIO;
-using CSharpSnippets.PrintMethods;
-using static System.Windows.Forms.LinkLabel;
 
+#pragma warning disable IDE0051 // Remove unused private members
 namespace CSharpSnippets.FixCs.RoslynFixer
 {
     public class FixRoslynSources
@@ -14,13 +13,13 @@ namespace CSharpSnippets.FixCs.RoslynFixer
         private const int DEFAULT_EOL_PREFERENCE = FileWriter.WINDOWS_ENDINGS;
         private const int DEFAULT_BOM_PREFERENCE = FileWriter.SAVE_UTF_FILE_WITH_BOM;
 
-        private const int GENERIC_UNASSIGNED = 0;
+        // private const int GENERIC_UNASSIGNED = 0;
         private const int GEN_LINE = 1;
         private const int BLANK_LINE = 2;
         private const int COMMENT_LINE = 4;
         private const int COMMENT_TRAILING = 8;
         private const int COMMENT_BLOCK = 16;
-        private const int COMMENT_BLOCK_INLINED = 32;
+        // private const int COMMENT_BLOCK_INLINED = 32;
         private const int DOC_COMMENT = 64;
         private const int QUAD_COMMENT = 128;
         private const int MULTISTRING = 256;
@@ -83,7 +82,7 @@ namespace CSharpSnippets.FixCs.RoslynFixer
             return trimSourceType[bitPosition];
         }
 
-        private bool CheckSourceTypeMatch(int sourceDescription, int sourceType)
+        private static bool CheckSourceTypeMatch(int sourceDescription, int sourceType)
         {
             return (sourceDescription & sourceType) > 0;
         }
@@ -186,7 +185,7 @@ namespace CSharpSnippets.FixCs.RoslynFixer
 
         private void WriteChangesToFile(string fileNamePath, int EOL, int useBom)
         {
-            var fw = new FileWriter(fileNamePath, EOL: EOL, useBom: useBom);
+            FileWriter fw = new(fileNamePath, EOL: EOL, useBom: useBom);
             for (var i = 0; i < sourceLines.Length; i++)
             {
                 // if (!blankLinesForRemoval[i])
@@ -234,12 +233,10 @@ namespace CSharpSnippets.FixCs.RoslynFixer
                     bracketEncountered = true;
                 }
                 if (!CheckSourceTypeMatch(sourceLineDescription[i], BLANK_LINE) &&
-                    !CheckSourceTypeMatch(sourceLineDescription[i], OPENING_BRACKET)) ;
+                    !CheckSourceTypeMatch(sourceLineDescription[i], OPENING_BRACKET))
                 {
                     bracketEncountered = false;
                 }
-
-                var asfds = 0;
                 if (bracketEncountered && CheckSourceTypeMatch(sourceLineDescription[i], BLANK_LINE))
                 {
                     // blankLinesForRemoval[i] = true;
@@ -287,7 +284,7 @@ namespace CSharpSnippets.FixCs.RoslynFixer
 
         private void AnalyseSourceFirstPass()
         {
-            var sourceState = SourceState.None;
+            SourceState sourceState = SourceState.None;
             for (var i = 0; i < trimmedSource.Length; i++)
             {
                 switch (sourceState)
@@ -414,7 +411,7 @@ namespace CSharpSnippets.FixCs.RoslynFixer
             }
         }
 
-        // code is a multi-line string delimeter (end)if it has a single " after all double ""
+        // code is a multi-line string delimeter (end) if it has a single " after all double ""
         public static bool MultilineDelimiterEnd(string line)
         {
             var reduced = Regex.Replace(line, "{.*}", "").Replace("\"\"", "");
@@ -428,7 +425,7 @@ namespace CSharpSnippets.FixCs.RoslynFixer
         private const int INLINE_COMMENT_TYPE = 4;
         private const int BLOCK_COMMENT_LINE = 5;
         private const int MULTILINE_CANDIDATE_TYPE = 6;
-        private static Regex matchStringLiterals = new Regex("\\\"(?:\\\\.|[^\\\\\"])*\\\"");
+        private static Regex matchStringLiterals = new("\\\"(?:\\\\.|[^\\\\\"])*\\\"");
 
         private static int GetLineType(string[] trimmedSource, int i)
         {
@@ -470,7 +467,7 @@ namespace CSharpSnippets.FixCs.RoslynFixer
 
         private static int LeastNonZero(int val1, int val2, int val3)
         {
-            var vals = new List<int> { val1, val2, val3 };
+            List<int> vals = new() { val1, val2, val3 };
             vals.Sort();
             if (vals[0] >= 0) { return vals[0]; }
             if (vals[1] >= 0) { return vals[1]; }
@@ -499,27 +496,9 @@ namespace CSharpSnippets.FixCs.RoslynFixer
             return sourceLines;
         }
 
-        // add one more line than counted, because the last \n falls out
-        // R: strangely, the file read with File.ReadAllLines is the same whether or not I add a blank line at the end
-        private static int CountBlankLinesAtEof(List<string> lines)
-        {
-            if (!string.IsNullOrEmpty(lines[lines.Count - 1].Trim()))
-            {
-                return 1;
-            }
-            var blankLinesAtEof = 1;
-            while (string.IsNullOrWhiteSpace(lines[lines.Count - blankLinesAtEof].Trim()) &&
-                   blankLinesAtEof < lines.Count
-                )
-            {
-                blankLinesAtEof++;
-            }
-            return blankLinesAtEof;
-        }
-
         private void MarkLinesWithSourceAnalysis(string fileNamePath, int eolPreference, int bomPreference)
         {
-            var fw = new FileWriter(fileNamePath, EOL: eolPreference, useBom: bomPreference);
+            FileWriter fw = new(fileNamePath, EOL: eolPreference, useBom: bomPreference);
             for (var i = 0; i < sourceLines.Length; i++)
             {
                 fw.WriteLine($"{sourceLines[i],-80}    // {GetSourceTypeDescription(sourceLineDescription[i])}");

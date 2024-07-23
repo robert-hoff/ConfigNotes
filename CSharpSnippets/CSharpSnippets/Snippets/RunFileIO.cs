@@ -30,7 +30,7 @@ namespace CSharpSnippets.Snippets
         public static void TestFileWrite2()
         {
             var outputFilenamepath = $"{DEFAULT_OUTPUT_DIR}/hellofile.html";
-            var fw = new FileWriter(
+            FileWriter fw = new(
                 outputFilenamepath,
                 showOutputToConsole: false,
                 EOL: FileWriter.LINUX_ENDINGS,
@@ -47,7 +47,7 @@ namespace CSharpSnippets.Snippets
         public static void TestFileWrite1()
         {
             var outputFilenamepath = $"{DEFAULT_OUTPUT_DIR}/hellofile.txt";
-            var fw = new FileWriter(
+            FileWriter fw = new FileWriter(
                 outputFilenamepath,
                 showOutputToConsole: false,
                 EOL: FileWriter.LINUX_ENDINGS,
@@ -62,7 +62,7 @@ namespace CSharpSnippets.Snippets
 
         public static void TestFileReadStringData()
         {
-            var stringData = ReadDataFromFile.ReadSingleColumnStringData("stringdata.txt");
+            List<string> stringData = ReadDataFromFile.ReadSingleColumnStringData("stringdata.txt");
             foreach (var stringVal in stringData)
             {
                 Debug.WriteLine($"{stringVal}");
@@ -71,7 +71,7 @@ namespace CSharpSnippets.Snippets
 
         public static void TestFileReadIntData()
         {
-            var intData = ReadDataFromFile.ReadSingleColumnIntData("intdata.txt");
+            List<int> intData = ReadDataFromFile.ReadSingleColumnIntData("intdata.txt");
             foreach (var intVal in intData)
             {
                 Debug.WriteLine($"{intVal}");

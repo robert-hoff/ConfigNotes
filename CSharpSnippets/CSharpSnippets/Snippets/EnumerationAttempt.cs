@@ -1,22 +1,10 @@
 using System.Diagnostics;
-using CSharpSnippets.PrintMethods;
 
 namespace CSharpSnippets.Snippets
 {
-    public class PrintSourceTypeArray
+    public static class EnumerationAttempt
     {
-        //public enum SourceType
-        //{
-        //    Gen = 0,
-        //    Blk = 1,
-        //    CLn = 2,
-        //    CLT = 4,
-        //    CBlo = 8,
-        //    CBin = 16,
-        //    DC = 32,
-        //    MStr = 64,
-        //}
-
+        [Flags]
         public enum SourceType
         {
             Generic = 0,

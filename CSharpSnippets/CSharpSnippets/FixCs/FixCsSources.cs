@@ -5,17 +5,19 @@ namespace CSharpSnippets.FixCs
 {
     internal class FixCsSources
     {
-        private const string SOURCE_DIR = "../../../";
+        // private const string SOURCE_DIR = "../../../";
         // private const string SOURCE_DIR = @"X:\checkouts\VRF-Main\TestVRFDev";
+        // private const string SOURCE_DIR = @"Z:\git\kq1-hacking";
+        private const string SOURCE_DIR = @"Z:\github\Kq1Pathing\Kq1Pathing";
         private const string TEST_FILE = @"../../../Program.cs";
-        private const int DESIRED_BLANK_LINES_AT_EOF = 2;
+        private const int DESIRED_BLANK_LINES_AT_EOF = 1;
         private const int EOL_PREFERENCE = FileWriter.LINUX_ENDINGS;
-        private const int BOM_PREFERENCE = FileWriter.SAVE_UTF_FILE_WITHOUT_BOM;
+        private const int BOM_PREFERENCE = FileWriter.SAVE_UTF_FILE_WITH_BOM;
 
         public static void Run()
         {
-            // FixAllFiles();
-            FixSingleFile();
+            FixAllFiles();
+            // FixSingleFile();
             // ShowFixesForFile(TEST_FILE);
             // ShowCsFilesWalkDirectory();
         }
