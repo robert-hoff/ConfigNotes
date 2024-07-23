@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Configuration;
+using System.Diagnostics;
 
 namespace CSharpSnippets.FormElements
 {
@@ -15,6 +16,7 @@ namespace CSharpSnippets.FormElements
             StartPosition = FormStartPosition.Manual;
             Location = Settings.FormLocation;
             Size = Settings.FormSize;
+            Debug.WriteLine($"main-form");
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)

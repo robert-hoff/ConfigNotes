@@ -2,8 +2,9 @@ using System.Diagnostics;
 
 namespace CSharpSnippets.FormElements
 {
-    public partial class ListBoxSelectionDemo : Form
+    public partial class ListBoxSelectionDemo : MainForm
     {
+        // constructor of parent class is called implicitly
         public ListBoxSelectionDemo()
         {
             InitializeComponent();
@@ -15,6 +16,8 @@ namespace CSharpSnippets.FormElements
             Debug.WriteLine($"{index}");
         }
 
+        // -- close on Esc is inherited from parent
+        /*
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == Keys.Escape)
@@ -23,5 +26,6 @@ namespace CSharpSnippets.FormElements
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
+        */
     }
 }

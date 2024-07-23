@@ -26,8 +26,8 @@ namespace CSharpSnippets
             ApplicationConfiguration.Initialize();
 
             // MainForm form = new MainForm();
-            // ListBoxSelectionDemo form = new ListBoxSelectionDemo();
-            MenuAndContextMenuDemo form = new MenuAndContextMenuDemo();
+            ListBoxSelectionDemo form = new ListBoxSelectionDemo();
+            // MenuAndContextMenuDemo form = new MenuAndContextMenuDemo();
 
             Application.Run(form);
             form.Dispose();
