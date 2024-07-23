@@ -1,4 +1,4 @@
-﻿#pragma warning disable IDE0005 // Using directive is unnecessary.
+#pragma warning disable IDE0005 // Using directive is unnecessary.
 using System.Diagnostics;
 using System.Numerics;
 using CSharpSnippets.EditorConfigs;
@@ -14,8 +14,8 @@ namespace CSharpSnippets
         [STAThread]
         private static void Main()
         {
-            // FormSnippets();
-            CSharpSnippets();
+            FormSnippets();
+            // CSharpSnippets();
             // EditorConfigs();
             // CopyOverConfigs();
             // FixSelf();
@@ -24,9 +24,13 @@ namespace CSharpSnippets
         public static void FormSnippets()
         {
             ApplicationConfiguration.Initialize();
-            MainForm mainForm = new MainForm();
-            Application.Run(mainForm);
-            mainForm.Dispose();
+
+            // MainForm form = new MainForm();
+            // ListBoxSelectionDemo form = new ListBoxSelectionDemo();
+            MenuAndContextMenuDemo form = new MenuAndContextMenuDemo();
+
+            Application.Run(form);
+            form.Dispose();
         }
 
         public static void CSharpSnippets()
